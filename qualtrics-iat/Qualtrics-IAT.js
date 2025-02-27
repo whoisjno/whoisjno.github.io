@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://baranan.github.io/minno-tasks/quiat8.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], function(APIConstructor, iatExtension){
 	var API = new APIConstructor();
 
 	return iatExtension({
@@ -31,7 +31,7 @@ define(['pipAPI', 'https://baranan.github.io/minno-tasks/quiat8.js'], function(A
 		category2 :	{
 			name : 'Toys', //Will appear in the data.
 			title : {
-				media : {word : 'Toys'}, //Name of the category presented in the task.
+				media : {word : 'Toy'}, //Name of the category presented in the task.
 				css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
 				height : 4 //Used to position the "Or" in the combined block.
 			},
@@ -71,7 +71,7 @@ define(['pipAPI', 'https://baranan.github.io/minno-tasks/quiat8.js'], function(A
 		},
 
 		base_url : {//Where are your images at?
-			image : 'https://github.com/whoisjno/qualtrics-IAT/tree/a61c0c44ab8ba0001fd4aeaa0e52d46d92a383ce/images'
+			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
 		}
 	});
 });
