@@ -57,6 +57,18 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		base_url : {//Where are your images at?
 			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
 		},
-		fullscreen:true
+		fullscreen:true,
+
+		blockAttributes_nTrials : 16,
+		blockAttributes_nMiniBlocks : 4,
+		blockCategories_nTrials : 28,
+		blockCategories_nMiniBlocks : 7,
+		blockFirstCombined_nTrials : 0,
+		blockFirstCombined_nMiniBlocks : 1,
+		blockSecondCombined_nTrials : 0, //Change to 0 if you want 5 blocks (you would probably want to increase blockFirstCombined_nTrials).
+		blockSecondCombined_nMiniBlocks : 1,
+		blockSwitch_nTrials : 28,
+		blockSwitch_nMiniBlocks : 7
+
 	});
 });
