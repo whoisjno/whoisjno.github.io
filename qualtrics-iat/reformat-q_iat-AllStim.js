@@ -76,5 +76,3 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 
 	});
 });
-	});
-});
