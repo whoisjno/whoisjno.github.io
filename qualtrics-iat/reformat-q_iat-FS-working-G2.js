@@ -11,7 +11,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
     		    {image : 'ethon2.jpg'},
-    			{image : 'franka emika.jpg'},
+    			{image : 'frankaemika.jpg'},
     			{image : 'homemate.jpg'},
     			{image : 'jibo.jpg'},
     			{image : 'mykie.jpg'},
