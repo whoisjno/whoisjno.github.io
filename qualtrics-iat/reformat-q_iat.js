@@ -3,8 +3,6 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 
 	return iatExtension({
 		
-		fullscreen:true,
-		
 		category1 : {
 			name : 'Robots', //Will appear in the data.
 			title : {
