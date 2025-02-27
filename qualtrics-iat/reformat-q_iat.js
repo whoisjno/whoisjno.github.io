@@ -2,6 +2,9 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     var API = new APIConstructor();
 
 	return iatExtension({
+		
+		fullscreen:true,
+		
 		category1 : {
 			name : 'Robots', //Will appear in the data.
 			title : {
@@ -15,7 +18,15 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'int-ball.jpg'}, 
     			{image : 'speech buddy.jpg'}, 
     			{image : 'maggie.jpg'}, 
-    			{image : 'irobi-q.jpg'}
+    			{image : 'irobi-q.jpg'},
+    			{image : 'paperp.jpg'}, 
+    			{image : 'ethon2.jpg'}, 
+    			{image : 'franka emika.jpg'}, 
+    			{image : 'homemate.jpg'}, 
+    			{image : 'jibo.jpg'},
+    			{image : 'mykie.jpg'}, 
+    			{image : 'telubee.jpg'}, 
+    			{image : 'tjbot.jpg'}
 			], 
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
