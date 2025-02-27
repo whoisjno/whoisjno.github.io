@@ -71,7 +71,7 @@ define(['pipAPI', 'https://baranan.github.io/minno-tasks/quiat8.js'], function(A
 		},
 
 		base_url : {//Where are your images at?
-			image : 'https://github.com/whoisjno/qualtrics-IAT/tree/a61c0c44ab8ba0001fd4aeaa0e52d46d92a383ce/images'
+			image : 'whoisjno.github.io/qualtrics-iat/images'
 		}
 	});
 });
