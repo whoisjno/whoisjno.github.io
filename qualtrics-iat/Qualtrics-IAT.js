@@ -46,30 +46,6 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
 		},
-		attribute1 :
-		{
-			name : 'Bad words',
-			title : {
-				media : {word : 'Bad words'},
-				css : {color:'#0000FF','font-size':'1.8em'},
-				height : 4 //Used to position the "Or" in the combined block.
-			},
-			stimulusMedia : [ //Stimuli content as PIP's media objects
-				{word: 'dangerous'},
-				{word: 'unreliable'},
-				{word: 'dreadful'},
-				{word: 'terrible'},
-				{word: 'nasty'},
-				{word: 'evil'},
-				{word: 'horrible'},
-				{word: 'dead'},
-				{word: 'pain'},
-				{word: 'failure'}
-			],
-			//Stimulus css
-			stimulusCss : {color:'#0000FF','font-size':'2.3em'}
-		},
-
 		base_url : {//Where are your images at?
 			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
 		}
