@@ -18,15 +18,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'int-ball.jpg'}, 
     			{image : 'speech buddy.jpg'}, 
     			{image : 'maggie.jpg'}, 
-    			{image : 'irobi-q.jpg'},
-    			{image : 'paperp.jpg'}, 
-    			{image : 'ethon2.jpg'}, 
-    			{image : 'franka emika.jpg'}, 
-    			{image : 'homemate.jpg'}, 
-    			{image : 'jibo.jpg'},
-    			{image : 'mykie.jpg'}, 
-    			{image : 'telubee.jpg'}, 
-    			{image : 'tjbot.jpg'}
+    			{image : 'irobi-q.jpg'}
 			], 
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
