@@ -66,9 +66,9 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		blockAttributes_nTrials : 2,
 		blockAttributes_nMiniBlocks : 1,
 		blockCategories_nTrials : 28,
-		blockCategories_nMiniBlocks : 7,
-		blockFirstCombined_nTrials : 28,
-		blockFirstCombined_nMiniBlocks : 7,
+		blockCategories_nMiniBlocks : 14,
+		blockFirstCombined_nTrials : 50,
+		blockFirstCombined_nMiniBlocks : 25,
 		blockSecondCombined_nTrials : 0, //Change to 0 if you want 5 blocks (you would probably want to increase blockFirstCombined_nTrials).
 		blockSecondCombined_nMiniBlocks : 0, 
 		blockSwitch_nTrials : 28,
