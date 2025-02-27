@@ -40,9 +40,12 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 
 		base_url : {//Where are your images at?
 			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
-		}, 
+		},
+
 		fullscreen:true,
+
 		////In each block, we can include a number of mini-blocks, to reduce repetition of same group/response.
+
 		////If you set the number of trials in any block to 0, that block will be skipped.
 		blockAttributes_nTrials : 15,
 		blockAttributes_nMiniBlocks : 5,
