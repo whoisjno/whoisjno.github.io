@@ -40,6 +40,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 
 		base_url : {//Where are your images at?
 			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
-		} 
+		}, 
+		fullscreen:true
 	});
 });
