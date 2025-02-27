@@ -15,6 +15,14 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'int-ball.jpg'}, 
     			{image : 'speech buddy.jpg'}, 
     			{image : 'maggie.jpg'}, 
+    			{image : 'papero.jpg'}, 
+    			{image : 'ethon2.jpg'}, 
+    			{image : 'franka emika.jpg'}, 
+    			{image : 'homemate.jpg'}, 
+    			{image : 'jibo.jpg'}, 
+    			{image : 'mykie.jpg'}, 
+    			{image : 'telubee.jpg'}, 
+    			{image : 'tjbot.jpg'}, 
     			{image : 'irobi-q.jpg'}
 			], 
 			//Stimulus css (style)
@@ -33,6 +41,14 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : '2023.jpg'}, 
     			{image : '2025.jpg'}, 
     			{image : '2033.jpg'}, 
+    			{image : '2001.jpg'}, 
+    			{image : '2018.jpg'}, 
+    			{image : '2029.jpg'}, 
+    			{image : '2035.jpg'}, 
+    			{image : '2048.jpg'}, 
+    			{image : '2049.jpg'}, 
+    			{image : '2055.jpg'}, 
+    			{image : '2056.jpg'}, 
     			{image : '2044.jpg'}			], 
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
