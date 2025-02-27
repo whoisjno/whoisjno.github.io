@@ -5,7 +5,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		category1 : {
 			name : 'Minoritet', //Will appear in the data.
 			title : {
-				media : {word : 'Minoritet'}, //Name of the category presented in the task.
+				media : {word : 'Minoritet ID:4'}, //Name of the category presented in the task.
 				css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
 				height : 4 //Used to position the "Or" in the combined block.
 			}, 
@@ -23,7 +23,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		category2 :	{
 			name : 'Etnisk norsk', //Will appear in the data.
 			title : {
-				media : {word : 'Etnisk norsk'}, //Name of the category presented in the task.
+				media : {word : 'Etnisk norsk ID:4'}, //Name of the category presented in the task.
 				css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
 				height : 4 //Used to position the "Or" in the combined block.
 			}, 
