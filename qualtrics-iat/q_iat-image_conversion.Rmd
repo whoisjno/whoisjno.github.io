@@ -7,13 +7,13 @@ library(imager)
 setwd("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat")
 
 # load images
-q_images <- load.dir("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images")
+q_images <- load.dir("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages")
 
 ```
 
 ```{r getFileNames}
 
-filenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images", pattern="*.jpg", full.names = TRUE)
+filenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages", pattern="*.jpg", full.names = TRUE)
 
 
 
@@ -25,7 +25,7 @@ if(!is.null(filenames)){
 
     im1=grayscale(loaded_image)
     im2=imresize(im1, scale = 1/2, interpolation = 6)
-    save.image(im=im2, paste("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images/GSimages",im))
+    save.image(im=im2, paste("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages",im))
   }
 }
 
