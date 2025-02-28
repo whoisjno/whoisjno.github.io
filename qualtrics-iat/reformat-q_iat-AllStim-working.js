@@ -10,20 +10,20 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : 'zenbo.jpg'},
-    			{image : 'mero.jpg'},
-    			{image : 'int-ball.jpg'},
-    			{image : 'speech buddy.jpg'},
-    			{image : 'maggie.jpg'},
-    			{image : 'papero.jpg'},
-    			{image : 'irobi-q.jpg'},
-    			{image : 'ethon2.jpg'},
-    			{image : 'frankaemika.jpg'},
-    			{image : 'homemate.jpg'},
-    			{image : 'jibo.jpg'},
-    			{image : 'mykie.jpg'},
-    			{image : 'tellubee.jpg'},
-    			{image : 'tjbot.jpg'}
+    		    {image : 'zenbo_GS.jpg'},
+    			{image : 'mero_GS.jpg'},
+    			{image : 'int-ball_GS.jpg'},
+    			{image : 'speech buddy_GS.jpg'},
+    			{image : 'maggie_GS.jpg'},
+    			{image : 'papero_GS.jpg'},
+    			{image : 'irobi-q_GS.jpg'},
+    			{image : 'ethon2_GS.jpg'},
+    			{image : 'frankaemika_GS.jpg'},
+    			{image : 'homemate_GS.jpg'},
+    			{image : 'jibo_GS.jpg'},
+    			{image : 'mykie_GS.jpg'},
+    			{image : 'tellubee_GS.jpg'},
+    			{image : 'tjbot_GS.jpg'}
 			],
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
@@ -36,20 +36,20 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : '2005.jpg'},
-					{image : '2001.jpg'},
-    			{image : '2021.jpg'},
-    			{image : '2023.jpg'},
-    			{image : '2025.jpg'},
-    			{image : '2033.jpg'},
-    			{image : '2018.jpg'},
-    			{image : '2029.jpg'}, //HF
-    			{image : '2033.jpg'}, //LF
-    			{image : '2044.jpg'}, //LF
-    			{image : '2049.jpg'}, //HF
-    			{image : '2055.jpg'}, //HF
-    			{image : '2056.jpg'}, //HF
-    			{image : '2044.jpg'}			],
+    		    {image : '2005_GS.jpg'},
+					{image : '2001_GS.jpg'},
+    			{image : '2021_GS.jpg'},
+    			{image : '2023_GS.jpg'},
+    			{image : '2025_GS.jpg'},
+    			{image : '2033_GS.jpg'},
+    			{image : '2018_GS.jpg'},
+    			{image : '2029_GS.jpg'}, //HF
+    			{image : '2033_GS.jpg'}, //LF
+    			{image : '2044_GS.jpg'}, //LF
+    			{image : '2049_GS.jpg'}, //HF
+    			{image : '2055_GS.jpg'}, //HF
+    			{image : '2056_GS.jpg'}, //HF
+    			{image : '2044_GS.jpg'}			],
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
 		},

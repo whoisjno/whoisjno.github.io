@@ -10,13 +10,13 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : 'zenbo.jpg'},
-    			{image : 'mero.jpg'},
-    			{image : 'int-ball.jpg'},
-    			{image : 'speech buddy.jpg'},
-    			{image : 'maggie.jpg'},
-    			{image : 'papero.jpg'},
-    			{image : 'irobi-q.jpg'}
+    		    {image : 'zenbo_GS.jpg'},
+    			{image : 'mero_GS.jpg'},
+    			{image : 'int-ball_GS.jpg'},
+    			{image : 'speech buddy_GS.jpg'},
+    			{image : 'maggie_GS.jpg'},
+    			{image : 'papero_GS.jpg'},
+    			{image : 'irobi-q_GS.jpg'}
 			],
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'350px !important','width':'auto !important'}
@@ -29,13 +29,13 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : '2005.jpg'}, //LF
-					{image : '2001.jpg'}, //HF
-    			{image : '2021.jpg'}, //LF
-    			{image : '2023.jpg'}, //HF
-    			{image : '2025.jpg'}, //LF
-    			{image : '2035.jpg'}, //HF
-    			{image : '2048.jpg'}			], //HF
+    		    {image : '2005_GS.jpg'}, //LF
+					{image : '2001_GS.jpg'}, //HF
+    			{image : '2021_GS.jpg'}, //LF
+    			{image : '2023_GS.jpg'}, //HF
+    			{image : '2025_GS.jpg'}, //LF
+    			{image : '2035_GS.jpg'}, //HF
+    			{image : '2048_GS.jpg'}			], //HF
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'350px !important','width':'auto !important'}
 		},
