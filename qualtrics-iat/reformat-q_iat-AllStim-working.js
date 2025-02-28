@@ -49,7 +49,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'gs_2049.jpg'}, //HF
     			{image : 'gs_2055.jpg'}, //HF
     			{image : 'gs_2056.jpg'}, //HF
-    			{image : 'gs_2044.jpg'}			],
+    			{image : 'gs_2048.jpg'}			],
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
 		},
