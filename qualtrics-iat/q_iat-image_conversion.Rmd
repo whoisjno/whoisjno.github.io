@@ -1,0 +1,70 @@
+```{r loadPackage}
+library(imager)
+```
+
+```{r loadFiles, echo=FALSE}
+# set wd
+setwd("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat")
+
+# load images
+q_images <- load.dir("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images")
+
+```
+
+```{r getFileNames}
+
+filenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images", pattern="*.jpg", full.names = TRUE)
+
+
+
+if(!is.null(filenames)){
+  for(idx in filenames) {
+    im <- idx
+    print(im)
+    loaded_image <- load.image(im)
+
+    im1=grayscale(loaded_image)
+    im2=imresize(im1, scale = 1/2, interpolation = 6)
+    save.image(im=im2, paste("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images/GSimages",im))
+  }
+}
+
+```
+
+```{drafts 2}
+# load images and greyscale in for loop
+for (i in seq_along(q_images)) {
+  assign(i, load.image(q_images[[i]]))
+}
+
+```
+
+```{drafts}
+# load images from q_images into individual variables
+for (i in seq_along(q_images)) {
+  assign(i, load.image(q_images[[i]]))
+}
+
+# load images from q_images into individual variables
+for (i in seq_along(q_images)) {
+  imgname <- load.image(q_images[[i]], paste0("imgname", i, sep = "."))
+  assign(imgname, 1:i)
+}
+
+
+for (i in seq_along(q_images)) {
+
+  assign(i, load.image(paste0("img", i, sep = ".")))
+
+}
+
+```
+
+
+```{r convertImage-GS}
+
+z <- load.image("Slide3.JPG")
+z <- grayscale(z)
+y <- resize(z, size_x = 600, size_y = 400)
+save.image(im = y, "img3.JPG")
+```
