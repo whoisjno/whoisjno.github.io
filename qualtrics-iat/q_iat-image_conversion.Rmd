@@ -1,5 +1,7 @@
 ```{r loadPackage}
-library(imager)
+# library(imager) # use imresize and grayscale
+library(magick) # alternative to imager
+library(EBImage) # can scale by one dimension, unlike imager
 ```
 
 ```{r loadFiles, echo=FALSE}
@@ -7,64 +9,114 @@ library(imager)
 setwd("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat")
 
 # load images
-q_images <- load.dir("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages")
+filenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/scaled-images", pattern="*.jpg", full.names = TRUE)
+
+mfilenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/magick-greyscaled-images", pattern="*.jpg", full.names = TRUE)
+
 
 ```
 
-```{r getFileNames}
+```{r editImages-imager, include=FALSE}
 
-filenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages", pattern="*.jpg", full.names = TRUE)
-
-
-
-if(!is.null(filenames)){
-  for(idx in filenames) {
+if (!is.null(filenames)) {
+  for (idx in filenames) {
     im <- idx
     print(im)
     loaded_image <- load.image(im)
 
-    im1=grayscale(loaded_image)
-    im2=imresize(im1, scale = 1/2, interpolation = 6)
-    save.image(im=im2, paste("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/GSimages",im))
+    im1 <- grayscale(loaded_image)
+    im2 <- imresize(im1, scale = 0.8, interpolation = 6)
+    im3 <- clean(im2)
+    save.image(im = im3, file.path(dirname(im), paste0("gs_", basename(im))))
+  }
+}
+
+if (!is.null(filenames)) {
+  for (idx in filenames) {
+    im <- idx
+    print(im)
+    loaded_image <- load.image(im)
+
+    im1 <- grayscale(loaded_image)
+    im2 <- resize(im1, size_x = 350, interpolation_type = 6L)
+    im3 <- clean(im2)
+    save.image(im = im3, file.path(dirname(im), paste0("gs350x_", basename(im))))
   }
 }
 
 ```
 
-```{drafts 2}
-# load images and greyscale in for loop
-for (i in seq_along(q_images)) {
-  assign(i, load.image(q_images[[i]]))
+```{r editImages-magick, include=TRUE}
+
+# greyscale
+
+mgsfilenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/images", pattern="*.jpg", full.names = TRUE)
+
+
+if (!is.null(mgsfilenames)) {
+  for (idx in mgsfilenames) {
+    mim <- idx
+    print(mim)
+    loaded_image <- image_read(mim)
+
+    mim1 <- loaded_image
+    mim2 <- image_resize(mim1, geometry_size_pixels(height = 300))
+    mim3 <- image_convert(mim2, type = "grayscale", antialias = TRUE)
+    image_write(mim3, path = file.path(dirname(mim), paste0("gs_", basename(mim))))
+  }
 }
 
+# scale, full colour
+
+msfilenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/magick-scaled-images", pattern="*.jpg", full.names = TRUE)
+
+
+if (!is.null(msfilenames)) {
+  for (idx in msfilenames) {
+    mim <- idx
+    print(mim)
+    loaded_image <- image_read(mim)
+
+    mim1 <- loaded_image
+    mim2 <- image_resize(mim1, geometry_size_pixels(height = 300))
+    mim3 <- image_convert(mim2, antialias = TRUE)
+    image_write(mim3, path = file.path(dirname(mim), paste0("magick-s_", basename(mim))))
+  }
+}
 ```
 
-```{drafts}
-# load images from q_images into individual variables
-for (i in seq_along(q_images)) {
-  assign(i, load.image(q_images[[i]]))
+```{r editImages-EBImage, include=TRUE}
+
+ebigsfilenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/ebi-greyscaled-images", pattern="*.jpg", full.names = TRUE)
+
+# greyscale
+if (!is.null(ebigsfilenames)) {
+  for (idx in ebigsfilenames) {
+    im <- idx
+    print(im)
+    loaded_image <- load.image(im)
+
+    im1 <- grayscale(loaded_image)
+    im2 <- resize(im1, h = 350, antialias = TRUE)
+    save.image(im = im2, file.path(dirname(im), paste0("gs_", basename(im))))
+  }
 }
 
-# load images from q_images into individual variables
-for (i in seq_along(q_images)) {
-  imgname <- load.image(q_images[[i]], paste0("imgname", i, sep = "."))
-  assign(imgname, 1:i)
+# scale, full colour
+
+
+ebisfilenames <- list.files("/Users/46079386/Documents/GitHub/whoisjno.github.io/qualtrics-iat/ebi-scaled-images", pattern="*.jpg", full.names = TRUE)
+
+if (!is.null(ebisfilenames)) {
+  for (idx in ebisfilenames) {
+    im <- idx
+    print(im)
+    loaded_image <- load.image(im)
+
+    im1 <- loaded_image
+    im2 <- resize(im1, h = 350, antialias = TRUE)
+    save.image(im = im2, file.path(dirname(im), paste0("s_", basename(im))))
+  }
 }
-
-
-for (i in seq_along(q_images)) {
-
-  assign(i, load.image(paste0("img", i, sep = ".")))
-
-}
-
 ```
 
-
-```{r convertImage-GS}
-
-z <- load.image("Slide3.JPG")
-z <- grayscale(z)
-y <- resize(z, size_x = 600, size_y = 400)
-save.image(im = y, "img3.JPG")
-```

@@ -10,13 +10,13 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : 'ethon2_GS.jpg'},
-    			{image : 'frankaemika_GS.jpg'},
-    			{image : 'homemate_GS.jpg'},
-    			{image : 'jibo_GS.jpg'},
-    			{image : 'mykie_GS.jpg'},
-    			{image : 'tellubee_GS.jpg'},
-    			{image : 'tjbot_GS.jpg'}
+    		    {image : 'gs_ethon2.jpg'},
+    			{image : 'gs_frankaemika.jpg'},
+    			{image : 'gs_homemate.jpg'},
+    			{image : 'gs_jibo.jpg'},
+    			{image : 'gs_mykie.jpg'},
+    			{image : 'gs_tellubee.jpg'},
+    			{image : 'gs_tjbot.jpg'}
 			],
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
@@ -29,13 +29,13 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : '2018_GS.jpg'}, //HF
-    			{image : '2029_GS.jpg'}, //HF
-    			{image : '2033_GS.jpg'}, //LF
-    			{image : '2044_GS.jpg'}, //LF
-    			{image : '2049_GS.jpg'}, //HF
-    			{image : '2055_GS.jpg'}, //HF
-    			{image : '2056_GS.jpg'}			], //HF
+    		    {image : 'gs_2018.jpg'}, //HF
+    			{image : 'gs_2029.jpg'}, //HF
+    			{image : 'gs_2033.jpg'}, //LF
+    			{image : 'gs_2044.jpg'}, //LF
+    			{image : 'gs_2049.jpg'}, //HF
+    			{image : 'gs_2055.jpg'}, //HF
+    			{image : 'gs_2056.jpg'}			], //HF
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
 		},
