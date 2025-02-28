@@ -26,7 +26,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'gs_tjbot.jpg'}
 			],
 			//Stimulus css (style)
-			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
+			stimulusCss : {color:'#31940F','font-size':'1.8em'}
 		},
 		category2 :	{
 			name : 'Toys', //Will appear in the data.
@@ -51,7 +51,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'gs_2056.jpg'}, //HF
     			{image : 'gs_2048.jpg'}			],
 			//Stimulus css
-			stimulusCss : {color:'#31940F','font-size':'1.8em','height':'500px','width':'500px'}
+			stimulusCss : {color:'#31940F','font-size':'1.8em'}
 		},
 
 		base_url : {//Where are your images at?
