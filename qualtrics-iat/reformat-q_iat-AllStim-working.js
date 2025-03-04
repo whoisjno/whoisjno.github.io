@@ -37,14 +37,14 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
     		    {image : 'gs_2005.jpg'},
-					{image : 'gs_2001.jpg'},
+			{image : 'gs_2001.jpg'},
     			{image : 'gs_2021.jpg'},
     			{image : 'gs_2023.jpg'},
     			{image : 'gs_2025.jpg'},
     			{image : 'gs_2033.jpg'},
     			{image : 'gs_2018.jpg'},
     			{image : 'gs_2029.jpg'}, //HF
-    			{image : 'gs_2033.jpg'}, //LF
+    			{image : 'gs_2035.jpg'}, //HF
     			{image : 'gs_2044.jpg'}, //LF
     			{image : 'gs_2049.jpg'}, //HF
     			{image : 'gs_2055.jpg'}, //HF
