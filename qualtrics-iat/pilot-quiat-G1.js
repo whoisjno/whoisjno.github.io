@@ -16,14 +16,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
     			{image : 'gs_speech buddy.jpg'},
     			{image : 'gs_maggie.jpg'},
     			{image : 'gs_papero.jpg'},
-    			{image : 'gs_irobi-q.jpg'},
-    			{image : 'gs_ethon2.jpg'},
-    			{image : 'gs_frankaemika.jpg'},
-    			{image : 'gs_homemate.jpg'},
-    			{image : 'gs_jibo.jpg'},
-    			{image : 'gs_mykie.jpg'},
-    			{image : 'gs_tellubee.jpg'},
-    			{image : 'gs_tjbot.jpg'}
+    			{image : 'gs_irobi-q.jpg'}
 			],
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -37,19 +30,12 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
     		    {image : 'gs_2005.jpg'},
-			{image : 'gs_2001.jpg'},
+					{image : 'gs_2001.jpg'},
     			{image : 'gs_2021.jpg'},
     			{image : 'gs_2023.jpg'},
     			{image : 'gs_2025.jpg'},
     			{image : 'gs_2033.jpg'},
-    			{image : 'gs_2018.jpg'},
-    			{image : 'gs_2029.jpg'}, //HF
-    			{image : 'gs_2035.jpg'}, //HF
-    			{image : 'gs_2044.jpg'}, //LF
-    			{image : 'gs_2049.jpg'}, //HF
-    			{image : 'gs_2055.jpg'}, //HF
-    			{image : 'gs_2056.jpg'}, //HF
-    			{image : 'gs_2048.jpg'}			],
+    			{image : 'gs_2018.jpg'}			],
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
 		},
@@ -60,15 +46,15 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		fullscreen:true,
 
 		blockAttributes_nTrials : 20,
-		blockAttributes_nMiniBlocks : 2,
+		blockAttributes_nMiniBlocks : 5,
 		blockCategories_nTrials : 28,
-		blockCategories_nMiniBlocks : 2,
-		blockFirstCombined_nTrials : 96,
-		blockFirstCombined_nMiniBlocks : 8,
+		blockCategories_nMiniBlocks : 7,
+		blockFirstCombined_nTrials : 28,
+		blockFirstCombined_nMiniBlocks : 7,
 		blockSecondCombined_nTrials : 0, //Change to 0 if you want 5 blocks (you would probably want to increase blockFirstCombined_nTrials).
 		blockSecondCombined_nMiniBlocks : 1,
-		blockSwitch_nTrials : 96,
-		blockSwitch_nMiniBlocks : 8
+		blockSwitch_nTrials : 28,
+		blockSwitch_nMiniBlocks : 7
 
 	});
 });
