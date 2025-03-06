@@ -57,7 +57,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-biat/biat6.js'], functio
 						height : 4, //Height (because we need to know where to put the next item in the title)
 						startStimulus : {
 						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
-							media : {word : 'Tyron, Malik, Terrell, Jazmin, Tiara, Shanice'},
+							media : {image : 'robots.jpg'},
 							css : {color:'#31b404','font-size':'1em'},
 							height : 2
 						}
@@ -88,7 +88,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-biat/biat6.js'], functio
 						css : {color:'#31b404','font-size':'1.8em'},
 						height : 4,
 						startStimulus : {
-							media : {word : 'Jake, Connor, Bradley, Alison,Emma, Emily'},
+							media : {image : 'toys.jpg'},
 							css : {color:'#31b404','font-size':'1em'},
 							height : 2
 						}
