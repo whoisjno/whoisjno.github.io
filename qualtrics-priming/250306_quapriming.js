@@ -55,6 +55,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-priming/quep5.js'], func
 			//Set the image folder here.
 			base_url : {
 				image : "https://whoisjno.github.io/qualtrics-priming/images/"
-			}
+			},
+			fullscreen:false
 	});
 });
