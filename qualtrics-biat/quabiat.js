@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/biat6.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://whoisjno.github.io/qualtrics-biat/biat6.js'], function(APIConstructor, iatExtension){
   var API = new APIConstructor();
 
 
