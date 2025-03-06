@@ -1,0 +1,1541 @@
+---
+title: "Study 1 Main Test Results"
+subtitle: "Tweedie GLMM and Post-Hoc Tests"
+author: "Jean-Noël George"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::robobook:
+    use_bookdown: TRUE
+    number_sections: TRUE
+
+---
+
+```{r load-packages, echo=FALSE, include=FALSE}
+library("pacman")
+p_load(
+  "rmdformats", #rmd themes
+  "tidyverse", # tidy data
+  "car", # Levene's and Bartlett's test of non-normal distributions
+  "qqplotr", # QQ plots
+  "Hmisc", # export anovas etc
+  "devtools", # download packages from github
+  "dplyr", # manipulate data
+  "purrr", # tidy data (broom)
+  "gtsummary", # report regressions
+  "finalfit", # visualise regressions
+  "ggsignif", # add significance lines to ggplots
+  "dlookr", # describe data
+  "ppsr", # predictive power scores
+  "flextable", # export to tidy tables
+  "sjPlot", # plot regressions
+  "report", # report results
+  "benelib", #theme_gtsummary_apa
+  "easystats", # includes report(), correlations, etc.
+  "jtools", # get summ() to summarise and plot regressions
+  "performance", # check all assumptions
+  "knitr", # for chunk and kable
+  "boot", # bootstrap
+  "tictoc", # timing
+  "parallel", # parallel processing
+  "MASS", # glm.nb
+  "lme4", # glmer
+  "glmmTMB", # glmmTMB
+  "tweedie", # tweedie
+  "emmeans", # post-hoc tests
+  "kableExtra" # kable tables
+)
+
+```
+
+```{r setup, echo=FALSE}
+# Set global chunk options
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  fig.align = "center",
+  fig.width = 10,
+  fig.height = 5,
+  dpi = 36,
+  dev = "png"
+)
+
+# set gtsummary theme as APA
+benelib::theme_gtsummary_apa(set_theme = TRUE)
+
+# set rg limit for emmeans (default i 1000, which is too low)
+emm_options(rg.limit = 1175680)
+
+setwd("/Users/46079386/Library/CloudStorage/OneDrive-MacquarieUniversity/Academic/PhD/Study-1/Main Test — MTurk/Analysis/S1-MT_GLM")
+
+#load("RData/001_SONA-MTURK_EDA_data.RData")
+load("RData/SONA-MTURK_glm_data.RData") # processed glm_data
+
+
+```
+
+
+```{r contrasts, echo=FALSE, eval=FALSE}
+
+# factor cols
+fac_cols <- c(
+  "stimuliType",
+  "Gender",
+  "childGender",
+  "Education",
+  "Ethnicity",
+  "Religion",
+  "Occupation",
+  "Diet",
+  "group",
+  "gatorsScale",
+  "idaqScale",
+  "pervalItem",
+  "IncomeBinary",
+  "Currency"
+)
+
+for (i in fac_cols) {
+  glm_data[[i]] <- as.factor(glm_data[[i]])
+}
+
+
+# level sociodemographics
+
+contrasts(glm_data$Education) <-
+  contr.treatment(levels(glm_data$Education),
+                  base = which(levels(glm_data$Education) == "higherEducation")
+  )
+
+contrasts(glm_data$Ethnicity) <-
+  contr.treatment(levels(glm_data$Ethnicity),
+                  base = which(levels(glm_data$Ethnicity) == "nonWhite")
+  )
+
+contrasts(glm_data$Religion) <-
+  contr.treatment(levels(glm_data$Religion),
+                  base = which(levels(glm_data$Religion) == "Christian")
+  )
+
+contrasts(glm_data$Occupation) <-
+  contr.treatment(levels(glm_data$Occupation),
+                  base = which(levels(glm_data$Occupation) == "Administration")
+  )
+
+contrasts(glm_data$gatorsScale) <-
+  contr.treatment(levels(glm_data$gatorsScale),
+                  base = which(levels(glm_data$gatorsScale) == "socialNegative")
+  )
+
+
+contrasts(glm_data$idaqScale) <-
+  contr.treatment(levels(glm_data$idaqScale),
+                  base = which(levels(glm_data$idaqScale) == "overall")
+  )
+
+contrasts(glm_data$pervalItem) <-
+  contr.treatment(levels(glm_data$pervalItem),
+                  base = which(levels(glm_data$pervalItem) == "quality")
+  )
+
+contrasts(glm_data$group) <-
+  contr.treatment(levels(glm_data$group),
+                  base = which(levels(glm_data$group) == "MTURK")
+  )
+
+
+contrasts(glm_data$stimuliType) <-
+  contr.treatment(levels(glm_data$stimuliType),
+                  base = which(levels(glm_data$stimuliType) == "nObject")
+  )
+
+contrasts(glm_data$Currency) <-
+  contr.treatment(levels(glm_data$Currency),
+                  base = which(levels(glm_data$Currency) == "AUD")
+  )
+
+
+contrasts(glm_data$IncomeBinary) <-
+  contr.treatment(levels(glm_data$IncomeBinary),
+                  base = which(levels(glm_data$IncomeBinary) == "Upper")
+  )
+
+all_data <- glm_data
+
+
+glm_data <- glm_data %>%
+  dplyr::select( -IncomeBinary, -Currency)
+```
+
+------------------------------------------------------------------------
+
+# Hypotheses:
+
+1. Anthropomorphism in the toy products (i.e. anthropomorphic robots) will be rated as having a higher perceived value.
+    1. aRobots compared to the control (novel object)
+    2. mRobots compared to the control
+    3. aRobots compared to mRobots
+2. Participants with positive attitudes towards robots will rate stimuli with more anthropomorphism as having a higher perceived value.
+    1. aRobots compared to the control (novel object)
+    2. mRobots compared to the control
+    3. aRobots compared to mRobots
+3. Participants with negative attitudes towards robots will rate stimuli with more anthropomorphism as having a lower perceived value.
+    1. aRobots compared to the control (novel object)
+    2. mRobots compared to the control
+    3. aRobots compared to mRobots
+4. Participants with an increased tendency to engage in anthropomorphism more than with a reduced tendency will rate both the anthropomorphic and the mechanomorphic robots as having a higher perceived value.
+    1. aRobots compared to the control (novel object)
+    2. mRobots compared to the control
+    3. aRobots compared to mRobots
+5.  The effect of anthropomorphic tendency will be particularly evident with people's tendency to engage in anthropomorphism of technological objects.
+
+------------------------------------------------------------------------
+
+# Hypotheses Overview/Explained
+
+How the hypotheses align with main effects, simple effects, and interactions:
+
+## Main Effects
+These reflect the general/broader effects of each variable independently:
+---
+### Anthropomorphism Level (Stimuli Type):
+The level of anthropomorphism in toys (stimuli type: aRobot, mRobot, nObject) affects perceptions of value.
+
+### Attitudes Toward Robots:
+Sronger attitudes (positive or negative) affect perceptions of value, compared to weaker attitudes.
+
+### Anthropomorphism Tendency:
+The tendency to anthropomorphise affects perceptions of value, with those higher in anthropomorphism tendency rating value higher overall.
+
+
+## Simple Effects
+These reflect the specific effects at levels of the independent variables, typically broken down further:
+---
+
+### Anthropomorphism Level (Stimuli Type):
+Perceived value differs by stimuli type in a specific order:
+aRobot > mRobot > nObject.
+
+### Attitudes Toward Robots (Positive vs. Negative):
+
+#### Positive Attitudes:
+Stimuli with higher anthropomorphism are rated as having higher perceived value (aRobot > mRobot > nObject).
+
+#### Negative Attitudes:
+Stimuli with higher anthropomorphism are rated as having lower perceived value (aRobot < mRobot < nObject).
+
+### Anthropomorphism Tendency:
+Participants with higher anthropomorphism tendency rate value higher.
+This effect is more pronounced for technological objects compared to animal or nature-related stimuli.
+
+
+## Interactions
+These reflect how two or more variables combine to influence the outcome:
+---
+
+### Interaction Between Stimuli Type and Attitudes Toward Robots:
+The relationship between stimuli type (aRobot, mRobot, nObject) and perceived value depends on participants’ attitudes (positive vs. negative).
+
+### Interaction Between Anthropomorphism Tendency and Stimuli Type:
+The relationship between anthropomorphism tendency and perceived value is stronger for technological stimuli compared to animal or nature stimuli.
+
+
+------------------------------------------------------------------------
+
+
+# ZI Model
+
+```{r zi_inflated-model, eval=FALSE}
+
+zi_model <- glmmTMB(
+  pervalRating ~
+    stimuliType * (gatorsScore * gatorsScale) +
+      stimuliType * (idaqScore * idaqScale) +
+      pervalItem +
+      Age + Gender + childAge + childGender +
+      Education + Ethnicity + Religion +
+      group +
+      (1 | MID), # Random effects
+  zi = ~ 1, # Zero-inflation formula
+  control = glmmTMBControl(
+    optCtrl = list(iter.max = 1e3, eval.max = 1500)
+  ),
+  family = tweedie(link = "log"),
+  data = glm_data
+)
+
+
+zi_model_2 <- glmmTMB(
+  pervalRating ~
+    stimuliType * (gatorsScore * gatorsScale) +
+      stimuliType * (idaqScore * idaqScale) +
+      pervalItem +
+      Age + Gender + childAge + childGender +
+      Education + Ethnicity + Religion +
+      (1 | MID), # Random effects
+  zi = ~ 1, # Zero-inflation formula
+  control = glmmTMBControl(
+    optCtrl = list(iter.max = 1e3, eval.max = 1500)
+  ),
+  family = tweedie(link = "log"),
+  data = glm_data
+)
+
+zi_terms <- glmmTMB(
+  pervalRating ~
+    stimuliType + gatorsScore + gatorsScale +
+      idaqScore + idaqScale +
+      pervalItem +
+      Age + Gender + childAge + childGender +
+      Education + Ethnicity + Religion +
+      group +
+      (1 | MID), # Random effects
+  zi = ~ 1, # Zero-inflation formula
+  control = glmmTMBControl(
+    optCtrl = list(iter.max = 1e3, eval.max = 1500)
+  ),
+  family = tweedie(link = "log"),
+  data = glm_data
+)
+
+compare_performance(zi_terms, zi_model, zi_model_2)
+
+```
+
+
+```{r show-complex-zi_model, echo=FALSE}
+load("RData/004_SONA-MTURK_zif-inflated_model.RData")
+
+# Model Performance
+performance(zi_model) %>%
+  flextable(col_keys = names(.)) %>%
+  autofit() %>%
+  set_table_properties(
+      layout = "autofit",
+      opts_html = list(
+        scroll = list(
+          width = 410
+        )
+      )
+    ) %>%
+    flextable::align(align = "center", part = "all") %>%
+    flextable::theme_apa()
+
+tbl_regression(zi_model, conf.int = TRUE, exponentiate = TRUE, add_estimate_to_reference_rows = TRUE) %>%
+  bold_p() %>%
+  add_global_p()
+
+```
+
+# Bootstrapping
+
+```{r load-zif_boot_data, echo=FALSE}
+
+#load("RData/29-11-24_004_SONA-MTURK_zi_tweedie_glmmtmb_boot_results_1000-iterations.RData") # glmmtmb bootstrap results
+
+load("RData/004_SONA-MTURK_zi_tweedie_bootstrap_df_nObjectRef.RData") # bootstrap df used for gtsummary
+
+load("RData/004_SONA-MTURK_zif-inflated_model.RData") # zif model
+
+
+load("RData/30-11-24_004_SONA-MTURK_zi_tweedie_glmmtmb_boot_results_2000-iterations.RData") # zi bootstrap results, df and gts objects, 2000 iterations
+
+
+load("RData/02-12-24_004_SONA-MTURK_zi_tweedie_boot_model.RData") # bootmodel for emmeans
+
+
+```
+
+
+## Bootstrap Function & Running
+
+
+```{r zi-tweedie_model-bootstrap_funtion, eval=FALSE}
+
+zi_tweedie_boot <- function(data, indices) {
+
+  # Resample the data
+  boot_data <- data[indices, ]
+
+  # Fit the model
+  model <- glmmTMB::glmmTMB(
+      pervalRating ~
+      stimuliType * (gatorsScore * gatorsScale) +
+      stimuliType * (idaqScore * idaqScale) +
+      pervalItem +
+      Age + Gender + childAge + childGender +
+      Education + Ethnicity + Religion +
+      group +
+      (1 | MID),
+    zi = ~ 1, # Zero-inflation formula
+    data = boot_data,
+    family = glmmTMB::tweedie(link = "log"),
+    control = glmmTMB::glmmTMBControl(optCtrl = list(
+      iter.max = 1e3, eval.max = 1500
+    ))
+  )
+
+  # Extract fixed-effect coefficients
+  return(as.numeric(glmmTMB::fixef(model)$cond))
+
+
+}
+
+set.seed(123)  # Set seed for reproducibility
+library(tictoc)
+
+print(Sys.time())
+tic()
+# Perform bootstrapping
+zi_tweedie_glmmtmb_boot_results <- boot::boot(
+  data = glm_data,  # Replace with your actual data frame
+  statistic = zi_tweedie_boot,
+  R = 2000,  # Number of bootstrap iterations
+  parallel = "multicore",  # Use multicore processing
+  ncpus = 7  # Number of cores to use (adjust based on your system)
+)
+toc()
+print(Sys.time())
+
+# 1000 iterations = 11 hour runtime (39868.505 sec elapsed)
+# 2000 iterations =
+
+#save(zi_tweedie_glmmtmb_boot_results, file = "RData/30-11-24_004_SONA-MTURK_zi_tweedie_glmmtmb_boot_results_2000-iterations.RData") # correct model, does specifies group
+
+#save(zi_tweedie_glmmtmb_boot_results, file = "RData/29-11-24_004_SONA-MTURK_zi_tweedie_glmmtmb_boot_results_1000-iterations.RData") # incorrect model, does not specify group
+
+```
+
+
+
+## Bootstrap Results
+
+**Bootstrap Bias**
+
+Relative Bias: Compare the bias to the standard error (SE).
+
+A common threshold is:
+
+  Relative Bias = Bias/SE
+
+If the absolute value of relative bias is less than 0.25 (25%), the bias is generally considered small.
+
+If it exceeds 0.50 (50%), it may indicate a problem, such as model misspecification or data issues.
+
+```{r zi-interaction-tweedie_model-boot, echo=FALSE}
+
+
+kable(zi_tweedie_bootstrap_df)
+
+summary(zi_model)
+
+print(zi_tweedie_bootstrap_df, n = 62) # 2000 iterations
+
+summary(boot_model)
+
+```
+
+```{r boot-effect-size, echo=FALSE}
+# Add effect size and confidence interval
+zi_tweedie_bootstrap_df <- zi_tweedie_bootstrap_df %>%
+  mutate(
+    effect_size = original / std_error,  # Effect size approximation
+    ci_range = conf_high - conf_low
+  ) %>%
+  dplyr::select(label, original, bias, std_error, conf_low, conf_high, ci_range, p_value, effect_size)
+
+# Visualize effect sizes with confidence intervals
+ggplot(zi_tweedie_bootstrap_df, aes(x = label, y = effect_size)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high), width = 0.2) +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Effect Sizes with Confidence Intervals",
+       x = "Predictors",
+       y = "Effect Size")
+
+
+
+```
+
+
+```{r gtsummary-zif-tweedie_model-boot, echo=FALSE, eval=FALSE, include=FALSE}
+
+# round original to 2 dec. places and show 2 dec. places to match gtsummary
+zi_tweedie_bootstrap_gts <- zi_tweedie_bootstrap_df %>%
+  mutate(original = format(round(original, 3), nsmall = 2)) %>%
+  mutate(original = as.numeric(original)) %>%
+  dplyr::select(label, original, bias, std_error, conf_low, conf_high, ci_range, p_value, effect_size)
+
+
+# define a function to convert to scientific notation if < 3 decimal places
+to_scientific_notation <- function(x) {
+  ifelse(abs(x) < 0.001, sprintf("%.2e", x), sprintf("%.3f", x))
+}
+
+
+zi_tweedie_bootstrap_gts %>%
+  mutate_if(is.numeric, to_scientific_notation) %>%
+  flextable() %>%
+  autofit() %>%
+  set_table_properties(
+      layout = "autofit",
+      opts_html = list(
+        scroll = list(
+          width = 310
+        )
+      )
+    ) %>%
+    flextable::align(align = "center", part = "all") %>%
+    flextable::theme_apa()
+
+#zi_tweedie_bootstrap_gts %>%
+#  print(n = nrow(.))
+
+
+
+```
+
+Very Large Effect Sizes
+
+- intercept
+  - when no predictors are involved, participants perceive the products as being high value
+- social PERVAL
+  - the products are seen to have less social value
+- SONA
+  - SONA group perceive the products to have less value
+- Age
+  - younger participants perceive the product to have less value
+
+
+Moderate Effect Sizes
+
+
+## Bootstrap Distribution
+
+```{r zi_boot_distribution, echo=FALSE}
+
+str(zi_tweedie_boot_results)
+
+# Convert bootstrap results into a long format for ggplot
+boot_results_long <- as.data.frame(zi_tweedie_boot_results)
+boot_results_long <- tidyr::pivot_longer(
+  boot_results_long,
+  cols = everything(),
+  names_to = "Effect",
+  values_to = "Estimate"
+)
+
+str(boot_results_long)
+
+# Add original estimates
+boot_results_long$Original <- rep(zi_tweedie_effects, each = nrow(zi_tweedie_boot_results))
+
+str(boot_results_long)
+
+str(boot_results_long$Original)
+
+# check duupicates and remove duplicate rows
+boot_results_long <- boot_results_long %>%
+    distinct(Effect, Estimate, Original)
+
+str(boot_results_long)
+
+boot_results_long$Effect <- factor(boot_results_long$Effect,
+                                   levels = unique(boot_results_long$Effect))
+str(boot_results_long$Effect)
+
+
+# Plot the distribution
+ggplot(boot_results_long, aes(x = Estimate)) +
+  geom_histogram(bins = 30, fill = "blue", alpha = 0.7) +
+  geom_vline(aes(xintercept = Original), color = "red", linetype = "dashed") +
+  facet_wrap(~Effect, scales = "free", ncol = 2) +
+  theme_minimal() +
+  labs(title = "Distribution of Bootstrapped Estimates",
+       x = "Estimate",
+       y = "Frequency")
+
+
+ggplot(boot_results_long, aes(x = Effect, y = Estimate)) +
+    geom_violin() +
+    geom_point(data = zi_tweedie_bootstrap_gts, aes(x = label, y = original),
+               color = "red", size = 2) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+```
+
+```{r plot_boot-stimuliType, echo=FALSE}
+
+# Filter for effects of interest (e.g., stimuliType and idaqScale)
+stimuliType.results <- boot_results_long %>%
+  filter(Effect %in% c("stimuliTypeaRobot", "stimuliTypemRobot"))
+
+stimuliType.gts <- zi_tweedie_bootstrap_gts %>%
+  filter(label %in% c("stimuliTypeaRobot", "stimuliTypemRobot"))
+
+
+# Plot the filtered data
+ggplot(stimuliType.results, aes(x = Effect, y = Estimate)) +
+  geom_boxplot() +  # Boxplot for bootstrapped estimates
+  geom_point(data = stimuliType.results %>% distinct(Effect, Original),
+             aes(x = Effect, y = Original), color = "red", size = 3) +
+  labs(title = "Bootstrap Estimates for Selected Effects",
+       x = "Effect",
+       y = "Estimate") +
+  theme_minimal()
+
+
+ggplot(stimuliType.results, aes(x = Effect, y = Estimate)) +
+    geom_violin() +
+    geom_point(data = stimuliType.gts, aes(x = label, y = original),
+               color = "red", size = 2) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+```
+Distribution is around the original estimate (the red dot)
+- violin plots show this better
+
+
+```{r plot_boot-idaqScale, echo=FALSE}
+
+# Filter for effects of interest (e.g., stimuliType and idaqScale)
+idaqScale.results <- boot_results_long %>%
+  filter(Effect %in% c("idaqScaleanimal", "idaqScalenature", "idaqScaletechNature", "idaqScaletechnology"))
+
+
+idaqScale.gts <- zi_tweedie_bootstrap_gts %>%
+  filter(label %in% c("idaqScaleanimal", "idaqScalenature", "idaqScaletechNature", "idaqScaletechnology"))
+
+
+# Plot the filtered data
+ggplot(idaqScale.results, aes(x = Effect, y = Estimate)) +
+  geom_boxplot() +  # Boxplot for bootstrapped estimates
+  geom_point(data = idaqScale.results %>% distinct(Effect, Original),
+             aes(x = Effect, y = Original), color = "red", size = 3) +
+  labs(title = "Bootstrap Estimates for Selected Effects",
+       x = "Effect",
+       y = "Estimate") +
+  theme_minimal()
+
+
+ggplot(idaqScale.results, aes(x = Effect, y = Estimate)) +
+    geom_violin() +
+    geom_point(data = idaqScale.gts, aes(x = label, y = original),
+               color = "red", size = 2) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+```
+
+Distribution is around the original estimate (the red dot)
+- violin plots show this better
+
+```{r plot_boot-gatorsScale, echo=FALSE}
+
+# Filter for effects of interest (e.g., stimuliType and idaqScale)
+gatorsScale.results <- boot_results_long %>%
+  filter(Effect %in% c("gatorsScalepersonalNegative", "gatorsScalepersonalPositive", "gatorsScalesocialPositive"))
+
+
+gatorsScale.gts <- zi_tweedie_bootstrap_gts %>%
+  filter(label %in% c("gatorsScalepersonalNegative", "gatorsScalepersonalPositive", "gatorsScalesocialPositive"))
+
+
+# Plot the filtered data
+ggplot(gatorsScale.results, aes(x = Effect, y = Estimate)) +
+  geom_boxplot() +  # Boxplot for bootstrapped estimates
+  geom_point(data = gatorsScale.results %>% distinct(Effect, Original),
+             aes(x = Effect, y = Original), color = "red", size = 3) +
+  labs(title = "Bootstrap Estimates for Selected Effects",
+       x = "Effect",
+       y = "Estimate") +
+  theme_minimal()
+
+
+ggplot(gatorsScale.results, aes(x = Effect, y = Estimate)) +
+    geom_violin() +
+    geom_point(data = gatorsScale.gts, aes(x = label, y = original),
+               color = "red", size = 2) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+```
+
+Distribution is around the original estimate (the red dot)
+- violin plots show this better
+
+
+## ChatGPT on P Values, CIs, and Effect Sizes
+
+If your p-values are non-significant but the confidence intervals (CIs) do not include 0 and some terms show large effect sizes, it suggests that there is a potential effect, but the evidence is not strong enough for statistical significance under the conventional alpha level (usually 0.05).
+
+Here are key points to consider in interpreting these results:
+
+Effect Sizes: Large effect sizes indicate that the relationship between the predictor and the outcome is substantial. This suggests that even though the p-value is not below 0.05 (and thus not statistically significant), the practical impact of the predictor may still be meaningful.
+Confidence Intervals: When the CIs do not include 0, it suggests that the effect might indeed be real, as 0 (no effect) is not a plausible value for the effect size. This is in contrast to p-values, which are sensitive to sample size. In small samples, you might not achieve statistical significance even if there is a true effect.
+Non-Significant p-values: A non-significant p-value indicates that, based on your data and chosen alpha level, the evidence is insufficient to reject the null hypothesis. However, the confidence intervals and effect sizes imply that the effect could be practically important, and the non-significance may be due to factors like sample size or variability in the data.
+Sample Size and Power: If your sample size is small or the data is noisy, a non-significant p-value can occur even if the effect size is large. In this case, you might consider increasing the sample size or exploring alternative approaches (e.g., Bayesian methods) to provide a better estimate of the true effect.
+Practical vs Statistical Significance: It's important to distinguish between statistical significance (as indicated by p-values) and practical significance (as indicated by effect sizes). Sometimes, a non-significant p-value does not mean there is no effect, but rather that we do not have enough evidence to confirm it statistically.
+
+
+### Significant Model Coefficients with Bootstrap Results
+```{r zi-tweedie_model-regression_boot_comparison, echo=FALSE, eval=FALSE}
+
+library(stringr)
+
+# Create a table from the regression output
+zi_model_results <- tbl_regression(zi_model, conf.int = TRUE)
+
+# Convert the model results to a tibble and filter for significant p-values
+zi_model_results_tibble <- as_tibble(zi_model_results)
+
+
+# Filter the results to keep only rows with p-value < 0.05
+zi_significant_results <- zi_model_results_tibble %>%
+  filter(`**p-value**` < 0.05) %>% # Keep only significant results (p < 0.05)
+  filter(`**p-value**` != ">0.9") %>%
+  filter(`**p-value**` == "<0.001")
+
+
+# rename columns
+colnames(zi_significant_results) <- c("label", "estimate", "conf.int", "model p_value")
+
+zi_significant_results <- as_tibble(zi_significant_results)
+
+# round bootstrap results to 2 dec. places
+# round original to 2 dec. places and show 2 dec. places to match gtsummary
+zi_bootstrap_results <- zi_tweedie_bootstrap_df %>%
+  mutate(original = as.numeric(round(original, 2)))
+
+zi_merged_results <- zi_significant_results %>%
+  rowwise() %>%
+  mutate(
+    bootstrap_match = list(
+      zi_bootstrap_results %>%
+        filter(str_detect(zi_bootstrap_results$label, label) &
+               as.numeric(estimate) == original) %>%
+        rename(bootstrap_label = label)  # Rename the 'label' column
+    )
+  ) %>%
+  unnest(cols = c(bootstrap_match))
+
+
+zi_significant_merged_results <- zi_merged_results %>%
+  distinct(label, .keep_all = TRUE)  # Keep only unique rows for each label
+
+# scientific notation formula
+# define a function to convert to scientific notation if < 3 decimal places
+to_scientific_notation <- function(x) {
+  ifelse(abs(x) < 0.001, sprintf("%.2e", x), sprintf("%.3f", x))
+}
+
+
+# Create and select columns of interest
+
+zi_boot_reg_results <- zi_significant_merged_results %>%
+  dplyr::select(label, "estimate", conf.int, "model p_value", bias, std_error, "p_value") %>%
+  rename(
+    variable = label,
+    boot_p_value = p_value) %>%
+  mutate_if(is.numeric, to_scientific_notation) %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), (exp(as.numeric(estimate)) - 1) * 100, NA
+  )) %>%
+  mutate(relative_bias = ifelse(
+    !is.na(bias), (as.numeric(bias) / as.numeric(std_error)), NA
+  )) %>%
+  dplyr::select(variable, estimate, exp_estimate, conf.int, "model p_value", bias, std_error, relative_bias, boot_p_value)
+
+# flextable
+zi_boot_reg_results %>%
+  flextable() %>%
+  autofit() %>%
+  set_table_properties(
+      layout = "autofit",
+      opts_html = list(
+        scroll = list(
+          width = 410
+        )
+      )
+    ) %>%
+    flextable::align(align = "center", part = "all") %>%
+    flextable::theme_apa()
+
+```
+
+
+
+## Run Model with Boot Results (for emmeans Version) {.sub-sub-heading}
+
+zi_tweedie_bootstrap_df (Bootstrap Enhanced Model) is most appropriate for answering your hypotheses because it provides more reliable parameter estimates and accounts for variability better than raw or post-hoc optimized models.
+It balances robustness with hypothesis-testing clarity without the complexity of tailoring the model for post-hoc analysis.
+Results are likely closer to the actual data-generating process.
+
+boot_model is suitable for supplementary post-hoc analysis but not as the primary model for reporting hypothesis testing.
+```{r convert-boot-to-emmeans, echo=FALSE, eval=FALSE}
+
+library(emmeans)
+
+# Extract fixed-effect coefficients from the bootstrapped results
+boot_coefs <- zi_tweedie_glmmtmb_boot_results$t
+
+# Create a summary of the bootstrapped coefficients (e.g., mean, CI, etc.)
+boot_summary <- apply(boot_coefs, 2, function(x) {
+  c(mean = mean(x), lower_ci = quantile(x, 0.025), upper_ci = quantile(x, 0.975))
+})
+boot_summary <- as.data.frame(t(boot_summary))
+
+# View the bootstrapped coefficient summaries
+print(boot_summary)
+
+# For emmeans, need to create a fitted model object from the coefficients
+# This is a custom approach:
+# you will not recreate the full glmmTMB model
+# Creates a model object using the fixed effects from the bootstrapped results
+
+# Example: Creating a model object with bootstrapped coefficients
+# First, create a new df with fixed-effect coefficients (e.g., boot_coefs)
+
+boot_model <- glmmTMB::glmmTMB(
+  pervalRating ~ stimuliType * (gatorsScore * gatorsScale) +
+    stimuliType * (idaqScore * idaqScale) +
+    pervalItem +
+    Age + Gender + childAge + childGender +
+    Education + Ethnicity + Religion +
+    (1 | MID),
+  zi = ~ 1,  # Zero-inflation formula
+  data = glm_data,  # Use the original data frame for context
+  family = glmmTMB::tweedie(link = "log"),
+  start = boot_summary$mean,  # Use the mean of bootstrapped coefficients
+  control = glmmTMB::glmmTMBControl(optCtrl = list(
+    iter.max = 1e3, eval.max = 1500
+  ))
+)
+
+summary(boot_model)
+
+#save(boot_model, file = "RData/02-12-24_004_SONA-MTURK_zi_tweedie_boot_model.RData")
+
+```
+
+------------------------------------------------------------------------
+
+# Post-Hoc Tests {.tabset .heading}
+
+- Stimuli Type x GAToRS Score
+- Stimuli Type x IDAQ Score
+------------------------------------------------------------------------
+
+## Main Effects {.tabset .tabset-fade .sub-heading}
+
+### Stimuli Type {.sub-sub-heading}
+
+
+
+### Stimuli Type Emmeans {.sub-sub-heading}
+
+```{r em_1-emmeans, echo=FALSE, eval=FALSE}
+
+# Now you can run emmeans on this bootstrapped model
+em_1 <- emmeans(boot_model, pairwise ~ stimuliType, rg.limit = 103680)
+summary(em_1)
+
+# To summarize the bootstrapped results, you can also calculate confidence intervals
+boot_ci <- boot::boot.ci(zi_tweedie_glmmtmb_boot_results, type = "perc", index = 1:3)  # Adjust index if necessary
+
+print(boot_ci)
+
+# Extract estimated means
+em_1.emmeans_tbl <- em_1 %>%
+  summary(adjust = "sidak") %>%
+  .$emmeans %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3))
+
+# Extract pairwise contrasts
+em_1.contrasts_tbl <- em_1 %>%
+  summary(adjust = "sidak") %>%
+  .$contrasts %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Create separate tables
+em_1.emmeans_table <- em_1.emmeans_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+em_1.contrasts_table <- em_1.contrasts_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+# Display each table (or combine)
+em_1.emmeans_table
+em_1.contrasts_table
+
+```
+
+```{r combined-em_1-emmeans, echo=FALSE}
+
+
+
+emmeans_results %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), exp(as.numeric(estimate)), NA
+  )) %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  flextable() %>%
+  autofit() %>%
+  bg(i = 1, bg = "white", part = "header") %>%
+  flextable::set_table_properties(
+    layout = "autofit",
+    opts_html = list(
+      scroll = list(
+        width = 910,
+        freeze_first_column = FALSE
+      )
+    )
+  ) %>%
+  align(align = "center", part = "header") %>%
+  flextable::theme_apa()
+
+
+```
+
+#### Estimated Marginal Means Plot {.sub-sub-heading}
+
+```{r emm_1-plot, echo=FALSE}
+
+
+em_1.p <- emmip(
+  boot_model, ~ stimuliType,
+  type = "response", mode = "prob",
+  CIs = TRUE, infer = TRUE,
+  adjust = "sidak", plotit = FALSE) %>%
+  as.data.frame()
+
+ggplot(em_1.p, aes(
+  x = stimuliType, y = yvar, color = stimuliType, fill = stimuliType
+)) +
+  geom_line(aes(), group = "stimuliType", linewidth = 1, color = "black") +
+  geom_point(aes(fill = stimuliType), size = 8, colour = "black", pch = 21) +
+  geom_pointrange(aes(ymin = LCL, ymax = UCL, color = stimuliType),
+  linewidth = 5, alpha = 0.3) +
+  ggtitle(
+    "Predicted Perveived Value Ratings by PERVAL Item"
+  ) +
+  xlab("Stimuli Type") +
+  ylab("Predicted Value") +
+  theme_bw() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(hjust = rel(0.3)),
+    plot.title.position = "plot"
+  )
+
+```
+
+#### Results Summary {.sub-sub-heading}
+
+## Interactions
+
+### IDAQ Scale x IDAQ Score {.sub-heading}
+
+```{r int_1-emtrends, echo=FALSE}
+
+int_1 <- emtrends(
+  boot_model, ~ idaqScale, var = "idaqScore"
+)
+
+
+# Extract estimated trends
+int_1.emmeans_tbl <- int_1 %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3))
+
+# Check if the summary contains the expected data
+#print(int_1.emmeans_tbl)
+
+# Extract pairwise contrasts
+int_1.contrasts_tbl <- int_1 %>%
+  emmeans::contrast(method = "pairwise") %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Check if the contrasts contain the expected data
+#print(int_1.contrasts_tbl)
+
+
+# Create separate tables
+int_1.emmeans_table <- int_1.emmeans_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+int_1.contrasts_table <- int_1.contrasts_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+# Display each table (or combine)
+int_1.emmeans_table
+int_1.contrasts_table
+
+
+```
+
+#### Estimated Marginal Means Plot {.sub-sub-heading}
+
+```{r int_1-plot, echo=FALSE}
+
+
+int_1.p <- emmip(
+  boot_model, idaqScale ~ idaqScore,
+  mode = "prob",
+  type = "log",
+  CIs = TRUE, infer = TRUE,
+  adjust = "sidak", plotit = FALSE,
+  at = list(idaqScore = seq(0, 10.0, by = 0.25)), #summary(glm_data$idaqScore)
+  rg.limit = 829440
+ ) %>%
+  as.data.frame()
+
+ggplot(int_1.p, aes(
+  x = idaqScore, y = yvar, color = idaqScale, fill = idaqScale
+)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3, shape = 21, color = "black") +
+  geom_pointrange(
+    aes(ymin = LCL, ymax = UCL),
+    linewidth = 0.5, alpha = 0.3
+  ) +
+  ggtitle("Predicted Perceived Value Ratings by IDAQ Score") +
+  xlab("IDAQ Score") +
+  ylab("Predicted Value") +
+  theme_bw() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5),
+    plot.title.position = "plot"
+  ) +
+  facet_wrap(~ idaqScale)
+
+
+
+```
+
+#### Results Summary {.sub-sub-heading}
+
+No Significant Differences in IDAQ Score on Perceived Value Between IDAQ Scales
+
+### IDAQ Scale x IDAQ Score x StimuliType {.sub-heading}
+
+
+```{r int_2-emtrends, echo=FALSE}
+# Continuous x Categorial = emtrends
+
+int_2 <- emtrends(
+  boot_model, specs = pairwise ~ stimuliType * idaqScale, var = "idaqScore",
+  infer = TRUE, type = "response"
+)
+
+
+int_2 %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), exp(as.numeric(estimate)), NA
+  )) %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  flextable() %>%
+  autofit() %>%
+  bg(i = 1, bg = "white", part = "header") %>%
+  flextable::set_table_properties(
+    layout = "autofit",
+    opts_html = list(
+      scroll = list(
+        freeze_first_column = FALSE
+      )
+    )
+  ) %>%
+  align(align = "center", part = "header") %>%
+  flextable::theme_apa()
+
+```
+
+```{r int_2-emtrends_split, echo=FALSE, eval=FALSE}
+
+int_2_split <- emtrends(
+  boot_model, ~ stimuliType * idaqScale, var = "idaqScore",
+  infer = TRUE, type = "response"
+)
+# Extract estimated trends
+int_2_split.emmeans_tbl <- int_2_split %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Check if the summary contains the expected data
+print(int_2_split.emmeans_tbl)
+
+# Extract pairwise contrasts
+int_2_split.contrasts_tbl <- int_2_split %>%
+  emmeans::contrast(method = "pairwise") %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), (exp(as.numeric(estimate)) - 1) * 100, NA
+  )) %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  )) %>%
+  dplyr::select(
+    contrast, estimate, exp_estimate, SE, df, z.ratio, p.value, signif)
+
+
+
+# Check if the contrasts contain the expected data
+print(int_2_split.contrasts_tbl)
+
+
+# Create separate tables
+int_2_split.emmeans_table <- int_2_split.emmeans_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+int_2_split.contrasts_table <- int_2_split.contrasts_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+# Display each table (or combine)
+int_2_split.emmeans_table
+int_2_split.contrasts_table
+
+
+# extract significant contrasts if "signif" contains a *
+
+int_2_split.contrasts_tbl_sig <- int_2_split.contrasts_tbl %>%
+  filter(signif != "") %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center", "striped")
+
+#int_2_split.contrasts_tbl_sig %>%
+  #save_kable("Results/Emmeans/sig_IDAQScalexIDAQScorexStimuliType.html")
+```
+
+#### Estimated Marginal Means Plot {.sub-sub-heading}
+
+```{r int_2-plot, echo=FALSE}
+
+
+int_2.p <- emmip(
+  boot_model, stimuliType * idaqScale ~ idaqScore,
+  cov.reduce = range, type = "response",
+  mode = "prob",
+  CIs = TRUE, infer = TRUE,
+  adjust = "sidak", plotit = FALSE,
+  at = list(idaqScore = seq(0, 10.0, by = 0.25)), #summary(glm_data$idaqScore)
+  rg.limit = 3778560
+ ) %>%
+  as.data.frame()
+
+ggplot(int_2.p, aes(
+  x = idaqScore, y = yvar, color = stimuliType, fill = stimuliType
+)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3, shape = 21, color = "black") +
+  geom_pointrange(
+    aes(ymin = LCL, ymax = UCL),
+    linewidth = 0.5, alpha = 0.3
+  ) +
+  ggtitle("Predicted Perceived Value Ratings by IDAQ Score") +
+  xlab("IDAQ Score") +
+  ylab("Predicted Value") +
+  theme_bw() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5),
+    plot.title.position = "plot"
+  ) +
+  facet_wrap(~ idaqScale)
+
+
+```
+
+#### Results Summary {.sub-sub-heading}
+
+Increased tendency to anthropomorphise is associated with higher perceived value ratings for novel objects compared to anthropomorphic and mechanomorphic robots.  This may have implications within the context of robot pets who use anthropomorphism, and that is sold under the pretense of being a pet.
+
+However, the percentage increases are relatively small, so there may be a different influencing factor in participants perceived value of products.
+
+i.e. pervalRating * exp(estimate) = change in perceived value
+
+if pervalRating = 5
+if exp(estimate) = 1.07
+
+5 * 1.07 = 5.35
+
+then participant went from 50% to 53.5% probability.
+
+Furthermore, the influence of IDAQ tendency did not go as initially hypothesised. That is, participants with higher IDAQ scores tended to have higher perceived value ratings for novel objects compared to anthropomorphic and mechanomorphic robots. This may mean that anthropomorphism may not have to be a core driving component that companies may operationalise to attract/entice caregivers and adults alone, although it may be important for children.
+
+What would be interesting to see is how caregivers' observations of children's interactions with these types of toys may affect their ratings of perceived value.
+
+ChatGPT:
+
+Significant Interactions and Non-Significant Main Effects:
+
+
+
+
+
+You said:
+Is it bad, good, or neutral if there are no significant main effects but significant interactions from the bootstrap enhanced model?
+ChatGPT said:
+It’s neither bad nor good—it depends on the context of your research questions and hypotheses. Here’s a breakdown of how to interpret this:
+
+Key Points:
+1. Significant Interactions Without Main Effects:
+This indicates that the relationship between predictors and the outcome variable depends on the combination of those predictors, rather than each predictor having a consistent, standalone effect.
+It’s statistically valid but emphasizes the importance of the combined effect over individual contributions.
+2. What It Means for Your Hypotheses:
+If your hypotheses focus on interaction effects, this is expected and supports your research.
+If your hypotheses predict main effects, then you might need to revisit whether the interactions could be masking these effects or if the theoretical model needs adjustment.
+3. Implications for Interpretation:
+Interactions > Main Effects suggest complexity: the outcome cannot be explained by individual predictors alone, but rather by how they work together.
+Report the interactions clearly and use visualization (e.g., interaction plots) to demonstrate how the predictors combine to influence the outcome.
+4. Bootstrapping Reliability:
+Bootstrapped results enhance the robustness of these findings, so significant interactions without main effects are likely genuine rather than statistical artifacts
+
+
+
+Reporting the results of zi_tweedie_bootstrap_df (EXAMPLE, NOT ACCURATE):
+
+A mixed-effects zero-inflated Tweedie regression was conducted to examine the effects of stimuli type, gators (score and scale), and IDAQ (score and scale) on perceived value ratings. The model accounted for random intercepts across participants (MID). Bootstrapped estimates revealed that stimuli type significantly predicted perceived value ratings, with aRobot (β = 0.60, SE = 0.03, z = 20.00, p < .001) and mRobot (β = 0.45, SE = 0.03, z = 15.00, p < .001) eliciting higher ratings compared to nObject. Further, interaction effects between stimuli type and gatorsScore:gatorsScale (β = 0.10, SE = 0.02, p < .01) suggested contextual modulation of perceived value. Full results are presented in Table X.
+
+
+
+### GAToRS Scale x GAToRS Score {.sub-heading}
+
+```{r int_3-emtrends, echo=FALSE}
+
+int_3 <- emtrends(
+  boot_model, ~ gatorsScale, var = "gatorsScore"
+)
+
+
+# Extract estimated trends
+int_3.emmeans_tbl <- int_3 %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3))%>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Check if the summary contains the expected data
+#print(int_3.emmeans_tbl)
+
+# Extract pairwise contrasts
+int_3.contrasts_tbl <- int_3 %>%
+  emmeans::contrast(method = "pairwise") %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Check if the contrasts contain the expected data
+#print(int_3.contrasts_tbl)
+
+
+# Create separate tables
+int_3.emmeans_table <- int_3.emmeans_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+int_3.contrasts_table <- int_3.contrasts_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+# Display each table (or combine)
+int_3.emmeans_table
+int_3.contrasts_table
+
+
+```
+
+#### Estimated Marginal Means Plot {.sub-sub-heading}
+
+```{r int_3-plot, echo=FALSE}
+
+
+int_3.p <- emmip(
+  boot_model, gatorsScale ~ gatorsScore,
+  mode = "prob",
+  type = "log",
+  CIs = TRUE, infer = TRUE,
+  adjust = "sidak", plotit = FALSE,
+  at = list(gatorsScore = seq(1, 5, by = 0.25)), #summary(glm_data$gatorsScore)
+  rg.limit = 829440
+ ) %>%
+  as.data.frame()
+
+ggplot(int_3.p, aes(
+  x = gatorsScore, y = yvar, color = gatorsScale, fill = gatorsScale
+)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3, shape = 21, color = "black") +
+  geom_pointrange(
+    aes(ymin = LCL, ymax = UCL),
+    linewidth = 0.5, alpha = 0.3
+  ) +
+  ggtitle("Predicted Perceived Value Ratings by GAToRS Score") +
+  xlab("GAToRS Score") +
+  ylab("Predicted Value") +
+  theme_bw() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5),
+    plot.title.position = "plot"
+  ) +
+  facet_wrap(~ gatorsScale)
+
+
+
+```
+
+#### Results Summary {.sub-sub-heading}
+
+No Significant Differences in GAToRS Score on Perceived Value Between GAToRS Scales
+
+### GAToRS Scale x GAToRS Score x StimuliType {.sub-heading}
+
+
+```{r int_4-emtrends, echo=FALSE}
+# Continuous x Categorial = emtrends
+
+int_4 <- emtrends(
+  boot_model, specs = pairwise ~ stimuliType * gatorsScale, var = "gatorsScore",
+  infer = TRUE, type = "response"
+)
+
+
+int_4 %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), exp(as.numeric(estimate)), NA
+  )) %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  flextable() %>%
+  autofit() %>%
+  bg(i = 1, bg = "white", part = "header") %>%
+  flextable::set_table_properties(
+    layout = "autofit",
+    opts_html = list(
+      scroll = list(
+        width = 910,
+        freeze_first_column = FALSE
+      )
+    )
+  ) %>%
+  align(align = "center", part = "header") %>%
+  flextable::theme_apa() %>%
+  flextable::save_as_html(path = "Results/Emmeans/GAToRSScalexGAToRSScorexStimuliType.html")
+
+```
+
+```{r int_4-emtrends_split, echo=FALSE, eval=FALSE}
+
+int_4_split <- emtrends(
+  boot_model, ~ stimuliType * gatorsScale, var = "gatorsScore",
+  infer = TRUE, type = "response"
+)
+# Extract estimated trends
+int_4_split.emmeans_tbl <- int_4_split %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate_if(is.numeric, function(x) round(x, 3))%>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ))
+
+# Check if the summary contains the expected data
+print(int_4_split.emmeans_tbl)
+
+# Extract pairwise contrasts
+int_4_split.contrasts_tbl <- int_4_split %>%
+  emmeans::contrast(method = "pairwise") %>%
+  summary(adjust = "sidak") %>%
+  as.data.frame() %>%
+  mutate(exp_estimate = ifelse(
+    !is.na(as.numeric(estimate)), (exp(as.numeric(estimate)) - 1) * 100, NA
+  )) %>%
+  mutate_if(is.numeric, function(x) round(x, 3)) %>%
+  mutate_at("p.value", ~ifelse(. < 0.001, "< 0.001", .)) %>%
+  mutate(signif = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  )) %>%
+  dplyr::select(
+    contrast, estimate, exp_estimate, SE, df, z.ratio, p.value, signif)
+
+
+
+# Check if the contrasts contain the expected data
+print(int_4_split.contrasts_tbl)
+
+
+# Create separate tables
+int_4_split.emmeans_table <- int_4_split.emmeans_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+int_4_split.contrasts_table <- int_4_split.contrasts_tbl %>%
+  kable() %>%
+  kable_styling(full_width = FALSE, position = "center")
+
+# Display each table (or combine)
+int_4_split.emmeans_table
+int_4_split.contrasts_table
+
+
+# extract significant contrasts if "signif" contains a *
+
+int_4_split.contrasts_tbl_sig <- int_4_split.contrasts_tbl %>%
+  filter(signif != "") %>%
+  kable("html") %>%
+  kable_styling(full_width = FALSE, position = "center", "striped")
+
+int_4_split.contrasts_tbl_sig %>%
+ save_kable("Results/Emmeans/sig_GAToRSScalexGAToRSScorexStimuliType.html")
+
+```
+
+#### Estimated Marginal Means Plot {.sub-sub-heading}
+
+```{r int_2-plot, echo=FALSE}
+
+
+int_2.p <- emmip(
+  boot_model, stimuliType * idaqScale ~ idaqScore,
+  cov.reduce = range, type = "response",
+  mode = "prob",
+  CIs = TRUE, infer = TRUE,
+  adjust = "sidak", plotit = FALSE,
+  at = list(idaqScore = seq(0, 10.0, by = 0.25)), #summary(glm_data$idaqScore)
+  rg.limit = 3778560
+ ) %>%
+  as.data.frame()
+
+ggplot(int_2.p, aes(
+  x = idaqScore, y = yvar, color = stimuliType, fill = stimuliType
+)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3, shape = 21, color = "black") +
+  geom_pointrange(
+    aes(ymin = LCL, ymax = UCL),
+    linewidth = 0.5, alpha = 0.3
+  ) +
+  ggtitle("Predicted Perceived Value Ratings by IDAQ Score") +
+  xlab("IDAQ Score") +
+  ylab("Predicted Value") +
+  theme_bw() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5),
+    plot.title.position = "plot"
+  ) +
+  facet_wrap(~ idaqScale)
+
+
+```
+
+#### Results Summary {.sub-sub-heading}
+
+------------------------------------------------------------------------
+
+## All Post-Hoc Rest Results
+
+```{r all-emmeans, echo=FALSE}
+
+emm_1
+int_1
+int_2
+
+```
+
+
+## Reporting Statistics
+```{r all-emmeans, echo=FALSE}
+
+aov_results <- car::Anova(simple_tweedie_model, type = "II", test = "F")
+chisq_value <- aov_results[["Chisq"]]
+df1 <- aov_results[["Df"]]
+p_value <- aov_results[["Pr(>Chisq)"]]
+
+coef(summary(simple_tweedie_model))
+
+
+tidy(simple_tweedie_model) %>%
+  print(n = 35)
+
+glance(simple_tweedie_model)
+
+aov_results
+
+```
+
+Main Effects:A significant main effect of stimuliType on perceived value ratings was observed,F(df1,df2)=X,p<.001F(df1,df2)=X,p<.001. Post-hoc comparisons using Tukey adjustments revealed that aRobot (M=1.96M=1.96, SE = 0.079) was rated significantly higher than both mRobot (M=1.90M=1.90, SE = 0.079,p<.0001p<.0001) and nObject (M=1.76M=1.76, SE = 0.079,p<.0001p<.0001). Similarly, mRobot was rated significantly higher than nObject (p<.0001p<.0001).For perceived value across pervalItem, although mean scores were similar across categories, significant pairwise differences were found (e.g., emotion was rated higher than quality,p=.0004p=.0004).Interaction Effects:A significant interaction was observed between stimuliType and GAToRS score (F(df1,df2)=X,p<.001F(df1,df2)=X,p<.001). Simple slopes analyses indicated that GAToRS score was negatively associated with perceived value for aRobot (B=−0.021B=−0.021, SE = 0.002,p<.05p<.05) and mRobot (B=−0.009B=−0.009, SE = 0.002,p<.05p<.05), whereas the association was positive for nObject (B=0.038B=0.038, SE = 0.003,p<.05p<.05).Additional Factors:Religion was significantly associated with perceived value ratings (F(df1,df2)=X,p=.002F(df1,df2)=X,p=.002), with non-religious participants reporting lower perceived value than Christians (p=.002p=.002) but not differing significantly from non-Christians (p=.238p=.238).Note:In all cases, results are reported on the log-transformed scale. Confidence intervals are presented at the 95% level.
