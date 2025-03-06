@@ -452,17 +452,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			if (wscript!=null) wscript.SendKeys('{F11}');
 			}
 		}
-		if(piCurrent.fullscreen){
-			console.log(piCurrent.fullscreen); // add this line
-			var el = document.documentElement;
-			var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-			if (rfs) rfs.call(el);
-			else if(window.ActiveXObject){
-			// for Internet Explorer
-			var wscript = new window.ActiveXObject('WScript.Shell');
-			if (wscript!=null) wscript.SendKeys('{F11}');
-			}
-		}
 		function inheritBasic(inPrimeCat, inTargetCat)
 		{
 		    var cond = inPrimeCat + "/" + inTargetCat;
