@@ -27,12 +27,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 	    //These are the 6 orders of the first two blocks
 	    //All the other blocks are determined by these two.
 	    var blockSeqs4 = [
-	        {f1:1, n1:2, f2:3},
-            {f1:1, n1:3, f2:2},
-            {f1:2, n1:1, f2:3},
+	        {f1:1, n1:3, f2:2},
             {f1:2, n1:3, f2:1},
-            {f1:3, n1:1, f2:2},
-            {f1:3, n1:2, f2:1}
+            {f1:1, n1:3, f2:2},
+            {f1:2, n1:3, f2:1},
+            {f1:1, n1:3, f2:2},
+            {f1:2, n1:3, f2:1}
         ];
 
 		var API = new APIConstructor();
