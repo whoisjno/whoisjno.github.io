@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat10.js'], function(APIConstructor, iatExtension){
     var API = new APIConstructor();
 
 	return iatExtension({
@@ -55,7 +55,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 		},
 
 		base_url : {//Where are your images at?
-			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
+			image : 'https://whoisjno.github.io/qualtrics-biat/images/'
 		},
 		fullscreen:true,
 
