@@ -1,7 +1,7 @@
 define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], function(APIConstructor, iatExtension){
     var API = new APIConstructor();
 
-	return iatExtension({
+		return iatExtension({
 		category1 : {
 			name : 'Robots', //Will appear in the data.
 			title : {
@@ -81,7 +81,7 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 			stimulusCss : {color:'#0000FF','font-size':'2em'}
 		},
 		base_url : {//Where are your images at?
-			image : 'https://whoisjno.github.io/qualtrics-iat/images/'
+			image : 'https://whoisjno.github.io/qualtrics-iat/images/' // not quiat10, so used images in qualtrics-iat/images. original found in qualtrics-biat/images
 		},
 		fullscreen:true,
 
