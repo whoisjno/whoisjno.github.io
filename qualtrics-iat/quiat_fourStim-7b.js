@@ -10,10 +10,10 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : 'gs_zenbo.jpg'},
-    			{image : 'gs_mero.jpg'},
-    			{image : 'gs_int-ball.jpg'},
-    			{image : 'gs_speech buddy.jpg'}
+    		    {image : 'a10.jpg'}, //zenbo
+    			{image : 'a11.jpg'}, //mero
+    			{image : 'a12.jpg'}, //int-ball
+    			{image : 'a13.jpg'} //speechbuddy
 			],
 			//Stimulus css (style)
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -26,10 +26,10 @@ define(['pipAPI', 'https://whoisjno.github.io/qualtrics-iat/quiat9.js'], functio
 				height : 4 //Used to position the "Or" in the combined block.
 			},
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-    		    {image : 'gs_2005.jpg'},
-					{image : 'gs_2001.jpg'},
-					{image : 'gs_2023.jpg'},
-    			{image : 'gs_2048.jpg'}
+    		    {image : 't05.jpg'},
+					{image : 't01.jpg'},
+					{image : 't23.jpg'},
+    			{image : 't48.jpg'}
 			],
 			//Stimulus css
 			stimulusCss : {color:'#31940F','font-size':'1.8em'}
