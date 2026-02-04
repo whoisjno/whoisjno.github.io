@@ -10,7 +10,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 				nameForLogging : 'Boy faces', //Will be used in the logging
 				//An array of all media objects for this category - combines all boy face stimuli
 				mediaArray : [
-          {image : 'M10HS_6767.jpg'},
+            {image : 'M10HS_6767.jpg'},
           {image : 'M11HS_6885.jpg'},
           {image : 'M12HS_7022.jpg'},
           {image : 'M17HS_8732.jpg'},
@@ -24,16 +24,14 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
           {image : 'M11SS_6918.jpg'},
           {image : 'M12SS_7038.jpg'},
           {image : 'M17SS_8752.jpg'},
-          {image : 'M19SS_9083.jpg'}
-				]
+          {image : 'M19SS_9083.jpg'}]
 			}, 
-
 			{
 				nameForFeedback : 'Girl faces',  //Will be used in the user feedback 
 				nameForLogging : 'Girl faces', //Will be used in the logging
 				//An array of all media objects for this category - combines all girl face stimuli
 				mediaArray : [
-            {image : 'F12HS_5000.jpg'},
+              {image : 'F12HS_5000.jpg'},
             {image : 'F23HS_7148.jpg'},
             {image : 'F32HS_7996.jpg'},
             {image : 'F38HS_9328.jpg'},
@@ -47,20 +45,62 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
             {image : 'F23SS_7167.jpg'},
             {image : 'F32SS_8010.jpg'},
             {image : 'F38SS_9355.jpg'},
-            {image : 'F40SS_9559.jpg'}
-				]
+            {image : 'F40SS_9559.jpg'}]
 			}
+		],
 
+		targetCats : [
+			{
+				nameForLogging : 'aRobot',
+				mediaArray : [
+              {image : 'a10.jpg'},
+            {image : 'a11.jpg'},
+            {image : 'a12.jpg'},
+            {image : 'a13.jpg'},
+            {image : 'a25.jpg'},
+            {image : 'a26.jpg'},
+            {image : 'a27.jpg'}
+        ]
+      },
+      {				
+        nameForLogging : 'mRobot',
+				mediaArray : [
+              {image : 'm10.jpg'},
+            {image : 'm12.jpg'},
+            {image : 'm16.jpg'},
+            {image : 'm17.jpg'},
+            {image : 'm22.jpg'},
+            {image : 'm31.jpg'},
+            {image : 'm33.jpg'}
+        ]
+      },
+      {				
+        nameForLogging : 'nObject',
+				mediaArray : [
+              {image : 't01.jpg'},
+            {image : 't33.jpg'},
+            {image : 't44.jpg'},
+            {image : 't48.jpg'},
+            {image : 't48.jpg'},
+            {image : 't55.jpg'},
+            {image : 't56.jpg'}
+        ]
+			}
 		],
 
 		examplePrimeStimulus : 
 		{
-			nameForLogging : 'examplePrime', //Will be used in the logging
-			//An array of all media objects for this category.
+			nameForLogging : 'examplePrime',
 			mediaArray : [{image : 'ampchair.jpg'}, {image : 'amplamp.jpg'}, {image : 'ampumbrella.jpg'}]
 		},
 
-		base_url : {//Where are your images at?
+		exampleTargetStimulus :
+		{
+			nameForLogging : 'exampleTarget',
+			sameAsTargets : true
+		},
+
+		base_url : {
 			image : 'https://whoisjno.github.io/qualtrics-amp/all-images'
 		}
 	});
