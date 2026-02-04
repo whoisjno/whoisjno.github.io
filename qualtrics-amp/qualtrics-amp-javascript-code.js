@@ -21,7 +21,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
     // This function gets activated only after MinnoJS is loaded
     function onLoad() {
         // Run your study (just set the correct URL)
-        minnoJS(canvas, "https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/amp/qualtrics/race_amp.js");
+        minnoJS(canvas, "https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@0c97db0a5677a4a1a2591cd91f65c285338d2f08/qualtrics-amp/amp-extention.js");
 
         // MinnoJS doesn't know about Qualtrics, we pass a function to inject the results into the question
         // For some reason `piGlobal` isn't available so we attach it to `minnoJS`
