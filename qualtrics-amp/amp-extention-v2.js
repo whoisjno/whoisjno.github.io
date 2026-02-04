@@ -61,7 +61,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		},
 
 		base_url : {//Where are your images at?
-			image : 'https://github.com/whoisjno/whoisjno.github.io/tree/66bb3bc23d751a74fd65faaa5eb6068cb8b442f2/qualtrics-amp/all-images'
+			image : 'https://whoisjno.github.io/qualtrics-amp/all-images'
 		}
 	});
 });
