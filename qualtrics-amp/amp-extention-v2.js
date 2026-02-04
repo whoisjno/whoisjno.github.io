@@ -102,6 +102,56 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 
 		base_url : {
 			image : 'https://whoisjno.github.io/qualtrics-amp/all-images'
-		}
+		},
+
+    sortingLabel1 : 'Choose', //Response is coded as 0. 
+		sortingLabel2 : 'Reject',  //Response is coded as 1.
+
+    //Instructions text.
+		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
+			'Press the key <B>rightKey</B> if the Toy product is more "desirable" (i.e. you "choose" it)  than average. ' + 
+			'Hit the <b>leftKey</b> key if it is more "undesirable" (i.e. you "reject" it) than average.<br/><br/>' + 
+			'The items appear and disappear quickly.  ' + 
+			'Remember to ignore the item that appears before the Toy product and evaluate only the Toy product.<br/><br/></p>'  + 
+			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
+			'When you are ready to try a few practice responses, hit the <b>space bar</b>.</p>' + 
+			'<p style="font-size:12px; text-align:center; font-family:arial">' + 
+			'<color="000000">[Round 1 of nBlocks]</p></div>',
+		firstBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
+			"See how fast it is? Don't worry if you miss some. " + 
+			'Go with your gut feelings.<br/><br/>' + 
+			'Concentrate on each Toy product and rate it as more "desirable" (i.e. you "choose" it) than the average Toy product with the <b>rightKey</b> key, ' + 
+			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
+			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Those items are sometimes distracting.<br/><br/>' + 
+			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
+			'Ready? Hit the <b>space bar</b>.</p>' + 
+			'<p style="font-size:12px; text-align:center; font-family:arial">' + 
+			'<color="000000">[Round 2 of nBlocks]</p></div>',
+		middleBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
+			'Continue to another round of this task. ' + 
+			'The rules are exactly the same:<br/><br/>' + 
+			'Concentrate on the  Toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
+			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
+			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Those items are sometimes distracting. Go with your gut feelings.<br/><br/>' + 
+			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
+			'Ready? Hit the <b>space bar</b>.</p>' + 
+			'<p style="font-size:12px; text-align:center; font-family:arial">' + 
+			'<color="000000">[Round blockNum of nBlocks]</p></div>',
+		lastBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
+			'Ready for the FINAL round? ' + 
+			'The rules are exactly the same:<br/><br/>' + 
+			'Concentrate on the Toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
+			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
+			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Those items are sometimes distracting. Go with your gut feelings.<br/><br/>' + 
+			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
+			'Ready? Hit the <b>space bar</b>.</p>' + 
+			'<p style="font-size:12px; text-align:center; font-family:arial">' + 
+			'<color="000000">[Round blockNum of nBlocks]</p></div>',
+		endText: '<div><p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial"><color="FFFFFF">'+
+			'You have completed the task<br/><br/>Press "space" to continue to next task.</p></div>', 
+    
 	});
 });
