@@ -1,4 +1,4 @@
-define(['https://whoisjno.github.io/qualtrics-eval-priming/evaluative-prime-template.js'], function(epExtension){
+define(['https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@f241d737b31b1f2428ab87c146b2e8b7405eb4f7/qualtrics-eval-priming/evaluative-prime-sourcecode.js'], function(epExtension){
 	return epExtension(
 	{
 			//The prime categories.
