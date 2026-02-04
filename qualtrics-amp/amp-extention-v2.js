@@ -10,21 +10,21 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 				nameForLogging : 'Boy faces', //Will be used in the logging
 				//An array of all media objects for this category - combines all boy face stimuli
 				mediaArray : [
-          {image : 'M10HS_6767.jpg', emotion : 'Happy'},
-          {image : 'M11HS_6885.jpg', emotion : 'Happy'},
-          {image : 'M12HS_7022.jpg', emotion : 'Happy'},
-          {image : 'M17HS_8732.jpg', emotion : 'Happy'},
-          {image : 'M19HS_9059.jpg', emotion : 'Happy'},
-          {image : 'M10NS_6758.jpg', emotion : 'Neutral'},
-          {image : 'M11NS_6873.jpg', emotion : 'Neutral'},
-          {image : 'M12NS_7011.jpg', emotion : 'Neutral'},
-          {image : 'M17NS_8725.jpg', emotion : 'Neutral'},
-          {image : 'M19NS_9055.jpg', emotion : 'Neutral'},
-          {image : 'M10SS_6781.jpg', emotion : 'Sad'},
-          {image : 'M11SS_6918.jpg', emotion : 'Sad'},
-          {image : 'M12SS_7038.jpg', emotion : 'Sad'},
-          {image : 'M17SS_8752.jpg', emotion : 'Sad'},
-          {image : 'M19SS_9083.jpg', emotion : 'Sad'}
+          {image : 'M10HS_6767.jpg'},
+          {image : 'M11HS_6885.jpg'},
+          {image : 'M12HS_7022.jpg'},
+          {image : 'M17HS_8732.jpg'},
+          {image : 'M19HS_9059.jpg'},
+          {image : 'M10NS_6758.jpg'},
+          {image : 'M11NS_6873.jpg'},
+          {image : 'M12NS_7011.jpg'},
+          {image : 'M17NS_8725.jpg'},
+          {image : 'M19NS_9055.jpg'},
+          {image : 'M10SS_6781.jpg'},
+          {image : 'M11SS_6918.jpg'},
+          {image : 'M12SS_7038.jpg'},
+          {image : 'M17SS_8752.jpg'},
+          {image : 'M19SS_9083.jpg'}
 				]
 			}, 
 
@@ -33,21 +33,21 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 				nameForLogging : 'Girl faces', //Will be used in the logging
 				//An array of all media objects for this category - combines all girl face stimuli
 				mediaArray : [
-            {image : 'F12HS_5000.jpg', emotion : 'Happy'},
-            {image : 'F23HS_7148.jpg', emotion : 'Happy'},
-            {image : 'F32HS_7996.jpg', emotion : 'Happy'},
-            {image : 'F38HS_9328.jpg', emotion : 'Happy'},
-            {image : 'F40HS_9533.jpg', emotion : 'Happy'},
-            {image : 'F12NS_4986.jpg', emotion : 'Neutral'},
-            {image : 'F23NS_7140.jpg', emotion : 'Neutral'},
-            {image : 'F32NS_7990.jpg', emotion : 'Neutral'},
-            {image : 'F38NS_9318.jpg', emotion : 'Neutral'},
-            {image : 'F40NS_9527.jpg', emotion : 'Neutral'},
-            {image : 'F12SS_5014.jpg', emotion : 'Sad'},
-            {image : 'F23SS_7167.jpg', emotion : 'Sad'},
-            {image : 'F32SS_8010.jpg', emotion : 'Sad'},
-            {image : 'F38SS_9355.jpg', emotion : 'Sad'},
-            {image : 'F40SS_9559.jpg', emotion : 'Sad'}
+            {image : 'F12HS_5000.jpg'},
+            {image : 'F23HS_7148.jpg'},
+            {image : 'F32HS_7996.jpg'},
+            {image : 'F38HS_9328.jpg'},
+            {image : 'F40HS_9533.jpg'},
+            {image : 'F12NS_4986.jpg'},
+            {image : 'F23NS_7140.jpg'},
+            {image : 'F32NS_7990.jpg'},
+            {image : 'F38NS_9318.jpg'},
+            {image : 'F40NS_9527.jpg'},
+            {image : 'F12SS_5014.jpg'},
+            {image : 'F23SS_7167.jpg'},
+            {image : 'F32SS_8010.jpg'},
+            {image : 'F38SS_9355.jpg'},
+            {image : 'F40SS_9559.jpg'}
 				]
 			}
 
