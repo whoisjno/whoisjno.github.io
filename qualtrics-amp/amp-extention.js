@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@77971607c5b6f28d6f8a8641aa172091d274aa6c/qualtrics-amp/amp-sourcecode.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/amp/qualtrics/qamp.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
 	
@@ -93,7 +93,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@77971
 		},
 
 		base_url : {//Where are your images at?
-			image : 'https://whoisjno.github.io/qualtrics-amp/all-images'
+			image : 'https://github.com/whoisjno/whoisjno.github.io/tree/66bb3bc23d751a74fd65faaa5eb6068cb8b442f2/qualtrics-amp/all-images'
 		}
 	});
 });
