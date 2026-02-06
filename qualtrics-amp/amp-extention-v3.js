@@ -127,13 +127,13 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		examplePrimeStimulus : 
 		{
 			nameForLogging : 'examplePrime',
-			mediaArray : [{image : 'ampchair.jpg'}, {image : 'amplamp.jpg'}, {image : 'ampumbrella.jpg'}]
+			mediaArray : [{image : 'amp-ex-1.jpg'}, {image : 'amp-ex-2.jpg'}, {image : 'amp-ex-3.jpg'}]
 		},
 
 		exampleTargetStimulus :
 		{
 			nameForLogging : 'exampleTarget',
-			mediaArray : [{image : 'amp-ex-1.jpg'}, {image : 'amp-ex-2.jpg'}, {image : 'amp-ex-3.jpg'}],
+			mediaArray : [{image : 'ampchair.jpg'}, {image : 'amplamp.jpg'}, {image : 'ampumbrella.jpg'}],
 			sameAsTargets : false
 		},
 
