@@ -133,7 +133,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		exampleTargetStimulus :
 		{
 			nameForLogging : 'exampleTarget',
-			sameAsTargets : true
+			mediaArray : [{image : 'amp-ex-1.jpg'}, {image : 'amp-ex-2.jpg'}, {image : 'amp-ex-3.jpg'}],
+			sameAsTargets : false
 		},
 
 		base_url : {
