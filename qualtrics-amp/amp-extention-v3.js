@@ -147,6 +147,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 
     //Instructions text.
 		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
+    
 			'Press the key <B>rightKey</B> if the Toy product is more "desirable" (i.e. you "choose" it)  than average.<br>' + 
 
 			'Hit the <b>leftKey</b> key if it is more "undesirable" (i.e. you "reject" it) than average.<br/><br/>' + 
