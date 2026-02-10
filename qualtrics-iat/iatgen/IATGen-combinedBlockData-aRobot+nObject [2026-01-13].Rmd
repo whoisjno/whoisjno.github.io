@@ -1,0 +1,294 @@
+---
+title: "S2-PT IATGen: aRobot + nObject"
+output: html_document
+date: "2025-11-21"
+---
+
+```{r setup, include=FALSE}
+#devtools::install_github("iatgen/iatgen")
+library(iatgen)
+
+setwd("/Users/46079386/Library/CloudStorage/OneDrive-MacquarieUniversity/Academic/PhD/Study-2/IATgen")
+```
+
+# Pre-Data Collection
+
+## 1. Build IATGen
+
+### from local files
+
+```{r build-iatgen-local, echo=FALSE}
+
+
+localrobots <- c(
+  "03. images/a10.jpg",
+  "03. images/a11.jpg",
+  "03. images/a12.jpg",
+  "03. images/a13.jpg",
+  "03. images/a25.jpg",
+  "03. images/a26.jpg",
+  "03. images/a27.jpg"
+)
+
+
+localtoys <- c(
+  "03. images/t01.jpg",
+  "03. images/t33.jpg",
+  "03. images/t44.jpg",
+  "03. images/t48.jpg",
+  "03. images/t49.jpg",
+  "03. images/t55.jpg",
+  "03. images/t56.jpg"
+)
+
+```
+
+### from qualtrics images
+
+```{r build-iatgen-qualtrics, echo=FALSE}
+#nolint start
+
+qualtricsrobots <- c(
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_ubwqkvRjfueLoVN",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_qJQfqsnv5kmsNzw",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_Mb9Lyl5hkRuBJfo",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_vIsgodzp5i1NWiz",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_kubriACCXLNJHl8",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_3XW8AqhlAw65e8h",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_IeXnqHZRLZU9AUi"
+)
+
+
+qualtricstoys <- c(
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_Aszb41WRfGwCVKd",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_XRPeLTIrCiTzUMT",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_BeKU8voRDTlpi3r",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_VdAryfgkSTk7eOW",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_iLa2x6jYPMG2oOc",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_FvjFqXJ13V1iFxh",
+  "https://mqedu.yul1.qualtrics.com/ControlPanel/Graphic.php?IM=IM_OUE2wjli9pWNCn1",
+)
+#nolint end
+```
+
+## 2. Write IATGen (generate QSF file)
+
+```{r write-iatgen, echo=FALSE}
+iatgen::writeIATfull(
+  IATname = "aRobot-Toy IAT_6",
+             posname = "Prefer",
+             negname = "Reject",
+
+             Aname="Robot",
+             Bname="Toy",
+
+             catType="words",
+             poswords = c("Desire", "Select", "Choose", "Pick", "Favour",
+                          "Fancy", "Take"),
+             negwords = c("Refuse", "Dismiss", "Ignore",
+                          "Discard", "Shun", "Drop", "Neglect"),
+
+             tgtType="images",
+             Aimgs = qualtricsrobots,
+             Bimgs = qualtricstoys,
+
+             #advanced options with recommended IAT settings
+             n = c(20, 20, 20, 40, 40, 20, 40),
+             qsf = TRUE,
+             note = TRUE,
+             correct.error = TRUE,
+             pause = 250,
+             errorpause = 300, #not used if correct.error=TRUE
+             tgtCol = "black",
+             catCol = "green",
+             norepeat = TRUE
+)
+```
+
+# Post-Data Collection
+
+## 1. Import Qualtrics Data (csv files)
+
+```{r process-data, echo=FALSE}
+
+# read in iatgen data
+#rawdat <- read.csv("Data/iatgen_v6_13 March 2025_09.23.csv", header = T)
+
+
+#dat <- read.csv("Data/iatgen_v6_13 March 2025_09.23.csv", header = T)
+```
+
+Of note, however, is that (1) each IAT block is one question and (2) there are four permutations of the IAT exist, counterbalancing the left/right starting position for both Target A and the positive category. Because each IAT consists of 7 blocks, these occupy 28 survey questions (7 blocks x 4 permutations). These questions are named using both the question number (Q1-Q28) and a 3-digit code identifying which IAT permutation it comes from, based on the starting position of Target A (RP = Target A starts right, initially paired with positive; RN = starts left with negative; LP = starts left with positive; LN = starts left with negative). Thus, “Q9 RN2” is the second block in the IAT where Target A starts on the right side, initially paired with negative (i.e., incompatible block comes first). Researchers should carefully consult our manuscript prior to use.
+
+Non-combined IAT data is in the following columns:
+(those of interest are the first two)
+RP Permuation: Target A on Right with Positive
+- Q1.RP1 (ToysRobots)
+- Q2.RP2 (RejectPrefer)
+- Q5.RP5 (RobotsToys)
+
+RN Permuation: Target A on Right with Negative
+- Q8.RN1 (ToysRobots)
+- Q9.RN2 (RejectPrefer)
+- Q12.RN5 (RobotsToys)
+
+LP Permuation: Target A on Left with Positive
+- Q16.LP1 (RobotsToys)
+- Q17.LP2 (PreferReject)
+- Q20.LP5 (ToysRobots)
+
+LN Permuation: Target A on Left with Negative
+- Q24.LN1 (RobotsToys)
+- Q25.LN2 (PreferReject)
+- Q28.LN5 (ToysRobots)
+
+To analyse the IAT, the data must be collapsed into four variables representing practice/critical versions of the compatible and incompatible blocks. At present, these are scattered across four hard-coded permutations of the IAT representing left/right counterbalancing of the starting positions (naming of these variables is discussed above and in our manuscript at https://psyarxiv.com/hgy3z/). The next step in the analysis is to collapse this down using combineIATfourblocks():
+
+## 2. Process Qualtrics Data into IAT Data
+
+```{r non-combined-blocks, echo=FALSE}
+library(tidyverse)
+
+p.dat <- dat %>%
+  dplyr::select(-c("StartDate", "EndDate", "Status", "Duration..in.seconds.", "Finished", "RecordedDate", "Progress", "DistributionChannel", "UserLanguage"))
+
+### Collapse  IAT category trials/blocks ####
+p.dat$category.trials <- combineIATfourblocks(p.dat$Q1.RP1, p.dat$Q8.RN1, p.dat$Q16.LP1, p.dat$Q24.LN1 )
+
+### Collapse  IAT attribute trials/blocks ####
+p.dat$attribute.trials <- combineIATfourblocks(p.dat$Q2.RP2, p.dat$Q9.RN2, p.dat$Q17.LP2, p.dat$Q25.LN2 )
+
+### Collapse  IAT category switch trials/blocks ####
+p.dat$switch.trials <- combineIATfourblocks(p.dat$Q5.RP5, p.dat$Q12.RN5, p.dat$Q20.LP5, p.dat$Q28.LN5 )
+
+### Select only the collapsed columns
+exemplars <- p.dat %>%
+  dplyr::select(c("category.trials", "attribute.trials", "switch.trials", "ResponseId")) %>%
+  # remove second row
+  dplyr::slice(-2)
+
+### Remove any string in the cells in row 1 that is not "Toys", "Robots", "Prefer", or "Reject"
+exemplars1 <- exemplars %>%
+  mutate(str_remove, pattern = "[^Toys|Robots|Prefer|Reject]")
+
+exemplars$category.trials[grepl(
+  "Toys Robots", exemplars[1, "category.trials"]
+)] <- NULL
+
+exemplars[1, "category.trials"] <- "ToysRobots"
+
+exemplars$attribute.trials[grepl(
+  "Prefer Reject", exemplars[1, "attribute.trials"]
+)] <- NULL
+
+exemplars[1, "attribute.trials"] <- "PreferReject"
+
+exemplars$switch.trials[grepl(
+  "Robots Toys", exemplars[1, "switch.trials"]
+)] <- NULL
+
+exemplars[1, "switch.trials"] <- "RobotsToys"
+
+
+```
+
+```{r collapse-data, echo=FALSE}
+
+### Collapse  IAT critical blocks ####
+dat$compatible.crit <- combineIATfourblocks(dat$Q4.RP4, dat$Q18.LP4, dat$Q14.RN7, dat$Q28.LN7)
+dat$incompatible.crit <- combineIATfourblocks(dat$Q7.RP7, dat$Q21.LP7, dat$Q11.RN4, dat$Q25.LN4)
+
+### Collapse  IAT practice blocks ####
+dat$compatible.prac<- combineIATfourblocks(dat$Q3.RP3, dat$Q17.LP3, dat$Q13.RN6, dat$Q27.LN6)
+dat$incompatible.prac <- combineIATfourblocks(dat$Q6.RP6, dat$Q20.LP6, dat$Q10.RN3, dat$Q24.LN3)
+
+```
+
+
+
+## 3. Clean IAT Data
+
+Following this, the researcher runs cleanIAT(). In this case, the researcher is careful to set an error.penalty=TRUE and error.penalty.ms=600 milliseconds, given that participants were not forced to correct errors (making this the D600 algorithm; had participants been forced to correct errors, this would have been error.penalty=FALSE, making it the D-built.in.error.penalty algorithm). This command is done and the result saved to an object for further use, typically named clean.
+
+```{r clean-iat, echo=FALSE}
+
+### Clean the IAT ###
+
+clean <- cleanIAT(
+  # The first four arguments (prac1, crit1, prac2, and crit2)
+  # represent the practice and critical versions of the
+  # compatible and incompatible blocks, respectively
+  prac1 = dat$compatible.prac,
+  crit1 = dat$compatible.crit,
+  prac2 = dat$incompatible.prac,
+  crit2 = dat$incompatible.crit,
+
+  # Following Greenwald et al. (2003)’s D-score algorithm
+  # Set a timeout so trials above 10,000 ms are removed
+  timeout.drop = TRUE,
+  timeout.ms = 10000,
+
+  # Not set individual fast trials to be removed in the same manner
+  fasttrial.drop = FALSE,
+  # Instead, following Greenwald et al. (2003) procedure of removing all data
+  # from participants who have more than 10% of responses under 300 ms
+  fastprt.drop = TRUE,
+  fastprt.percent = .10,
+  fastprt.ms = 300,
+  # Note: fast participants tend to have very high error rates, e.g.
+  # a participant pressing buttons randomly/quickly to skip the IAT.
+  # Thus, dropping fast participants seems to make sense in most contexts.
+
+
+  # Adding an error penalty in analysis of 600 ms because
+  # participants were not required to correct errors
+  error.penalty = TRUE,
+  error.penalty.ms = 600
+  # Greenwald et al. (2003) suggested researchers could use two standard
+  # deviations instead of a fixed penalty.
+  # We have added that as an option with error.penalty="2SD".
+  # If you want to disable it (e.g., if participants corrected errors),
+  # then set it to error.penalty=FALSE.
+)
+
+```
+
+## 4. Examine IAT Data
+
+```{r examine-iat, echo=FALSE}
+
+### NUMBER OF PARTICIPANTS WHO COMPLETED THE IAT ###
+sum(!clean$skipped)
+
+### TIMEOUT DROP RATE (% of TRIALS) ###
+clean$timeout.rate
+
+### FAST PARTICIPANT 'BUTTON MASHER' DROP COUNT AND RATE (% of SAMPLE) ###
+clean$fastprt.count
+
+clean$fastprt.rate
+
+### DROPPED PARTICIPANTS ###
+clean$drop.participant
+#### BY AGE ####
+dat$age[clean$drop.participant]
+
+### ERROR RATE ###
+clean$error.rate
+
+### ERROR RATE BY COMBINATION BLOCKS ###
+
+clean$error.rate.prac1
+
+clean$error.rate.crit1
+
+clean$error.rate.prac2
+
+clean$error.rate.crit2
+
+### ESTIMATE INTERNAL CONSISTENCY ###
+IATreliability(clean)$reliability
+
+### GET ALPHA ###
+IATalpha(clean)$alpha.total
+```
