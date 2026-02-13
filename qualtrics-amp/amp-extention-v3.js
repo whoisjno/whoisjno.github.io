@@ -192,5 +192,11 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		endText: '<div><p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial"><color="FFFFFF">'+
 			'You have completed the task<br/><br/>Press "space" to continue to next task.</p></div>', 
     
+      onEnd: function(ctx){
+        // Tell MinnoJS the task is finished
+        if (ctx && ctx.onEnd) {
+          ctx.onEnd();
+        }
+      }
 	});
 });
