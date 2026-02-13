@@ -148,20 +148,21 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 
     //Instructions text.
 		exampleBlockInst: '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
-			'Press the key <B>rightKey</B> if the Toy product is more "desirable" (i.e. you "choose" it)  than average.<br>' + 
+			'Press the key <B>rightKey</B> if the product is more "desirable" (i.e. you "choose" it)  than average.<br>' + 
 
 			'Hit the <b>leftKey</b> key if it is more "undesirable" (i.e. you "reject" it) than average.<br/><br/>' + 
 			'The items appear and disappear quickly.  ' + 
-			'Remember to ignore the item that appears before the Toy product and evaluate only the Toy product.<br/><br/></p>'  + 
+			'Remember to ignore the item that appears before the Toy product and evaluate only the product.<br/><br/></p>'  + 
 			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
 			'When you are ready to try a few practice responses, hit the <b>space bar</b>.</p>' + 
 			'<p style="font-size:12px; text-align:center; font-family:arial">', 
 		firstBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
 			"See how fast it is? Don't worry if you miss some. " + 
 			'Go with your gut feelings.<br/><br/>' + 
-			'Concentrate on each Toy product and rate it as more "desirable" (i.e. you "choose" it) than the average Toy product with the <b>rightKey</b> key, ' + 
+			'In the following trials, you will "choose" or "reject" <b>toy</b> products.<br/><br/>' + 
+			'Concentrate on each toy product and rate it as more "desirable" (i.e. you "choose" it) than the average toy product with the <b>rightKey</b> key, ' + 
 			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
-			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Evaluate each toy product and not the item that appears before it. ' + 
 			'Those items are sometimes distracting.<br/><br/>' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -170,9 +171,9 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		middleBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
 			'Continue to another round of this task. ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on the  Toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
+			'Concentrate on the  toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
 			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
-			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Evaluate each toy product and not the item that appears before it. ' + 
 			'Those items are sometimes distracting. Go with your gut feelings.<br/><br/>' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
@@ -181,9 +182,9 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 		lastBlockInst : '<div><p style="font-size:20px; text-align:left; margin-left:10px; font-family:arial"><color="000000"><br/>' + 
 			'Ready for the FINAL round? ' + 
 			'The rules are exactly the same:<br/><br/>' + 
-			'Concentrate on the Toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
+			'Concentrate on the toy product and rate it as more "desirable" (i.e. you "choose" it) than average with the <b>rightKey</b> key, ' + 
 			'or more "undesirable" (i.e. you "reject" it) than average with the <b>leftKey</b> key.<br/><br/>' + 
-			'Evaluate each Toy product and not the item that appears before it. ' + 
+			'Evaluate each toy product and not the item that appears before it. ' + 
 			'Those items are sometimes distracting. Go with your gut feelings.<br/><br/>' + 
 			'<p style="font-size:16px; text-align:center; font-family:arial"><color="000000"><br/><br/>' + 
 			'Ready? Hit the <b>space bar</b>.</p>' + 
