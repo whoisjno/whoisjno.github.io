@@ -5,46 +5,14 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@73996
     // Add logger settings here, before returning the extension
 
     API.addSettings('logger', {
-        onRow: function(logName, log, settings, ctx){ 
-            if (!ctx.logs) ctx.logs = [];
-            ctx.logs.push(log);
-        },
-        onEnd: function(name, settings, ctx){
-            return ctx.logs;
-        },
-        serialize: function(name, logs){
-            var headers = ['prime', 'target', 'latency', 'response', 'block'];
-            var content = logs.map(function(log){
-                return [
-                    log.data.alias,      // or whatever field holds prime category
-                    log.data.stimIndex,  // adjust these to match your actual log fields
-                    log.latency,
-                    log.data.score,
-                    log.data.block
-                ];
-            });
-            content.unshift(headers);
-            return toCsv(content);
-
-            function toCsv(matrice){ return matrice.map(buildRow).join('\n'); }
-            function buildRow(arr){ return arr.map(normalize).join(','); }
-            function normalize(val){
-                var quotableRgx = /(\n|,|")/;
-                if (quotableRgx.test(val)) return '"' + val.replace(/"/g, '""') + '"';
-                return val;
-            }
-        },
-        send: function(name, serialized){
-       			 // Write data to Qualtrics textarea
-						 if (window.minnoJS && window.minnoJS.logger) {
-							window.minnoJS.logger(serialized);
-						}
-        // Also trigger Qualtrics progression here as a backup
-        		 if (window.minnoJS && window.minnoJS.onEnd) {
-							setTimeout(window.minnoJS.onEnd, 100);
-						}
-					}
-    });
+			url: 'none',
+			send: function(name, serialized, settings, ctx){
+				var textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.value = serialized;
+        }
+			}
+		});
 
 	
 	return ampExtension({
