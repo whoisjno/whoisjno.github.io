@@ -5,36 +5,14 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@73996
     // Add logger settings here, before returning the extension
 
     API.addSettings('logger', {
-			onRow: function(logName, log, settings, ctx){
-					if (!ctx.logs) ctx.logs = [];
-					ctx.logs.push(log);
-			},
-			onEnd: function(name, settings, ctx){
-					return ctx.logs;
-			},
-			serialize: function(name, logs) {
-					var headers = ['block', 'condition', 'prime', 'target', 'latency', 'response', 'score'];
-					var content = logs.map(function(log) { 
-							return [log.data.block, log.data.condition, log.data.alias, log.data.handle, log.latency, log.responseHandle, log.data.score]; 
-					});
-					content.unshift(headers);
-					return toCsv(content);
-
-					function toCsv(matrice) { return matrice.map(buildRow).join('\n'); }
-					function buildRow(arr) { return arr.map(normalize).join(','); }
-					function normalize(val) {
-							if (val === undefined || val === null) return '';
-							val = String(val);
-							var quotableRgx = /(\n|,|")/;
-							if (quotableRgx.test(val)) return '"' + val.replace(/"/g, '""') + '"';
-							return val;
-					}
-			},
-			send: function(name, serialized){
-					var textarea = document.querySelector('textarea');
-					if (textarea) textarea.value = serialized;
+			url: 'none',
+			send: function(name, serialized, settings, ctx){
+				var textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.value = serialized;
+        }
 			}
-	});
+		});
 
 	
 	return ampExtension({
