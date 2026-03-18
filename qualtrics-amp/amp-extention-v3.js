@@ -2,6 +2,44 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 
 	var API = new APIConstructor();
 	
+    // ✅ Add logger settings here, before returning the extension
+    API.addSettings('onEnd', window.minnoJS.onEnd);
+
+    API.addSettings('logger', {
+        onRow: function(logName, log, settings, ctx){ 
+            if (!ctx.logs) ctx.logs = [];
+            ctx.logs.push(log);
+        },
+        onEnd: function(name, settings, ctx){
+            return ctx.logs;
+        },
+        serialize: function(name, logs){
+            var headers = ['prime', 'target', 'latency', 'response', 'block'];
+            var content = logs.map(function(log){
+                return [
+                    log.data.alias,      // or whatever field holds prime category
+                    log.data.stimIndex,  // adjust these to match your actual log fields
+                    log.latency,
+                    log.data.score,
+                    log.data.block
+                ];
+            });
+            content.unshift(headers);
+            return toCsv(content);
+
+            function toCsv(matrice){ return matrice.map(buildRow).join('\n'); }
+            function buildRow(arr){ return arr.map(normalize).join(','); }
+            function normalize(val){
+                var quotableRgx = /(\n|,|")/;
+                if (quotableRgx.test(val)) return '"' + val.replace(/"/g, '""') + '"';
+                return val;
+            }
+        },
+        send: function(name, serialized){
+            window.minnoJS.logger(serialized);
+        }
+    });
+
 	
 	return ampExtension({
 		primeCats :  [
