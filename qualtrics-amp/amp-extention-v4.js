@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@71234fca33f4b08609ca175ffe653fd2b03ee5b6/qualtrics-amp/amp4-sourcecode.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@2fa476e25eacf62d79e4d217e3418062f0b1a378/qualtrics-amp/amp4-sourcecode.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
 	
