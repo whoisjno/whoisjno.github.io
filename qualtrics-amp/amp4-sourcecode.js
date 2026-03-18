@@ -13,6 +13,17 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 	function ampExtension(options)
 	{
 		var API = new APIConstructor();
+		    
+		API.addSettings('logger', {
+			url: 'dummy',
+			send: function(name, serialized, settings, ctx){
+				var textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.value = serialized;
+        }
+			}
+		});
+		
 		var piCurrent = API.getCurrent();
 
 		//Here we set the settings of our task. Read the comments to learn what means.
