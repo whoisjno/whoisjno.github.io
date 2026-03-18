@@ -15,7 +15,7 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 		var API = new APIConstructor();
 
 		API.addSettings('logger', {
-    	url: 'https://eoXXXXXX.m.pipedream.net?responseId=' + (window.qualtricsResponseId || 'unknown'),    	type: 'new'
+    	url: 'https://eo6fiozitmc12of.m.pipedream.net?responseId=' + (window.qualtricsResponseId || 'unknown'),    	type: 'new'
 		});
 		
 		var piCurrent = API.getCurrent();
