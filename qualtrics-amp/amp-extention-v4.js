@@ -2,17 +2,6 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@136df
 
 	var API = new APIConstructor();
 	
-    // Add logger settings here, before returning the extension
-
-    API.addSettings('logger', {
-			url: 'none',
-			send: function(name, serialized, settings, ctx){
-				var textarea = document.querySelector('textarea');
-        if (textarea) {
-            textarea.value = serialized;
-        }
-			}
-		});
 
 	
 	return ampExtension({
