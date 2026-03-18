@@ -1201,7 +1201,6 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
         API.addCurrent(feedbackObj);
 
         // Send logs to Qualtrics
-        if (window.minnoJS && window.minnoJS.logger) {
             var headers = ['block', 'condition', 'prime', 'target', 'latency', 'response', 'score'];
             var content = logs.map(function(log){
                 return [
@@ -1226,8 +1225,10 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
                 return val;
             }
 
-            window.minnoJS.logger(toCsv(content));
-					}
+        		var textarea = document.querySelector('textarea');
+						if (textarea) {
+							textarea.value = toCsv(content);
+						}
 				}
 		});
 		return API.script;
