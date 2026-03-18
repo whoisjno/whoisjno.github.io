@@ -1227,8 +1227,11 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
             }
 
         		var textarea = document.querySelector('textarea');
+						console.log('textarea found:', textarea);
+						console.log('logs count:', logs.length);
 						if (textarea) {
 							textarea.value = toCsv(content);
+							console.log('CSV written:', toCsv(content).substring(0, 100));
 						}
 				}
 		});
