@@ -1226,13 +1226,13 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
                 return val;
             }
 
-        		var textarea = document.querySelector('textarea');
-						console.log('textarea found:', textarea);
-						console.log('logs count:', logs.length);
-						if (textarea) {
+					var textarea = window.qualtricsTextarea || document.querySelector('textarea');
+					console.log('textarea found:', textarea);
+					console.log('logs count:', logs.length);
+					if (textarea) {
 							textarea.value = toCsv(content);
 							console.log('CSV written:', toCsv(content).substring(0, 100));
-						}
+					}
 				}
 		});
 		return API.script;
