@@ -13,6 +13,11 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 	function ampExtension(options)
 	{
 		var API = new APIConstructor();
+
+		API.addSettings('logger', {
+    	url: 'https://script.google.com/macros/s/AKfycbxvgV4zx2WdjL0rb0Kvnso_oVTx1H0jTQB8ni5PfKT_fIHnRYABt1kIFm4CI9Mi26oPHg/exec',
+    	type: 'new'
+		});
 		
 		var piCurrent = API.getCurrent();
 
