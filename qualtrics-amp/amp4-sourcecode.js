@@ -15,7 +15,7 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 		var API = new APIConstructor();
 
 		API.addSettings('logger', {
-    	url: 'https://script.google.com/macros/s/AKfycbynI0Rd1q3jWIgbmJGHNVc7joIGOyE8dw3X8OS6OPMXoUSNC5eW5oJn_NGU1xZ3MbwpbQ/exec',
+    	url: 'https://eo6fiozitmc12of.m.pipedream.net',
     	type: 'new'
 		});
 		
