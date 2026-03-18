@@ -1201,45 +1201,10 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//What to do at the end of the task.
 		API.addSettings('hooks',{
-			endTask: function(){
-        var logs = API.getLogs();
-        var feedbackObj = piCurrent.responses==2 ? computeAMPScore2(logs) : computeAMPScore7(logs);
-        API.addCurrent(feedbackObj);
-
-        // Send logs to Qualtrics
-            var headers = ['block', 'condition', 'prime', 'target', 'latency', 'response', 'score'];
-            var content = logs.map(function(log){
-                return [
-                    log.data.block,
-                    log.data.condition,
-                    log.data.alias,
-                    log.data.handle,
-                    log.latency,
-                    log.responseHandle,
-                    log.data.score
-                ];
-            });
-            content.unshift(headers);
-
-            function toCsv(matrice){ return matrice.map(buildRow).join('\n'); }
-            function buildRow(arr){ return arr.map(normalize).join(','); }
-            function normalize(val){
-                var quotableRgx = /(\n|,|")/;
-                if (val === undefined || val === null) return '';
-                val = String(val);
-                if (quotableRgx.test(val)) return '"' + val.replace(/"/g, '""') + '"';
-                return val;
-            }
-
-					var textarea = window.qualtricsTextarea || document.querySelector('textarea');
-					if (textarea) {
-							var csv = toCsv(content);
-							// Set value
-							textarea.value = csv;
-							// Trigger native input event so Qualtrics registers the change
-    					textarea.dispatchEvent(new Event('input', { bubbles: true }));
-    					console.log('CSV written:', csv.substring(0, 100));
-					}
+				endTask: function(){
+						var logs = API.getLogs();
+						var feedbackObj = piCurrent.responses==2 ? computeAMPScore2(logs) : computeAMPScore7(logs);
+						API.addCurrent(feedbackObj);
 				}
 		});
 		return API.script;
