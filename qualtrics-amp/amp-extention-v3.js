@@ -2,8 +2,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
 
 	var API = new APIConstructor();
 	
-    // ✅ Add logger settings here, before returning the extension
-    API.addSettings('onEnd', window.minnoJS.onEnd);
+    // Add logger settings here, before returning the extension
 
     API.addSettings('logger', {
         onRow: function(logName, log, settings, ctx){ 
@@ -36,8 +35,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/whoisjno/whoisjno.github.io@ece98
             }
         },
         send: function(name, serialized){
-            window.minnoJS.logger(serialized);
-        }
+       			 // Write data to Qualtrics textarea
+						 if (window.minnoJS && window.minnoJS.logger) {
+							window.minnoJS.logger(serialized);
+						}
+        // Also trigger Qualtrics progression here as a backup
+        		 if (window.minnoJS && window.minnoJS.onEnd) {
+							setTimeout(window.minnoJS.onEnd, 100);
+						}
+					}
     });
 
 	
