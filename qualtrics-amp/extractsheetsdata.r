@@ -6,34 +6,22 @@ library(doBy)
 dir <- 'C:\\Users\\YourName\\Documents\\data'
 filename <- 'sheets_export.csv'
 
-# Read the Google Sheets export
+# Read Google Sheets export
 raw <- read.csv(paste(dir, filename, sep = '\\'), stringsAsFactors = FALSE)
 names(raw) <- c('timestamp', 'ResponseId', 'data')
 
-# Function to parse a single row
-parse_row <- function(response_id, json_str) {
+# Parse each row - now just reading CSV directly instead of JSON
+parse_row <- function(response_id, csv_str) {
   tryCatch({
-    rows <- fromJSON(json_str)
+    rows <- read.csv(text = csv_str, stringsAsFactors = FALSE)
     if (is.null(rows) || nrow(rows) == 0) return(NULL)
-    
-    data.frame(
-      id = response_id,
-      block = rows$data.block,
-      cond = rows$data.condition,
-      cat = sapply(rows$stimuli, function(s) if(length(s) >= 1) s[1] else NA),
-      stim = sapply(rows$stimuli, function(s) if(length(s) >= 2) s[2] else NA),
-      rt = rows$latency,
-      resp = rows$responseHandle,
-      score = rows$data.score,
-      stringsAsFactors = FALSE
-    )
+    cbind(id = response_id, rows)
   }, error = function(e) {
     message(paste('Error parsing row for ResponseId:', response_id))
     return(NULL)
   })
 }
 
-# Parse all rows and combine
 all_data <- bind_rows(mapply(
   parse_row,
   raw$ResponseId,
