@@ -1227,11 +1227,13 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
             }
 
 					var textarea = window.qualtricsTextarea || document.querySelector('textarea');
-					console.log('textarea found:', textarea);
-					console.log('logs count:', logs.length);
 					if (textarea) {
-							textarea.value = toCsv(content);
-							console.log('CSV written:', toCsv(content).substring(0, 100));
+							var csv = toCsv(content);
+							// Set value
+							textarea.value = csv;
+							// Trigger native input event so Qualtrics registers the change
+    					textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    					console.log('CSV written:', csv.substring(0, 100));
 					}
 				}
 		});
