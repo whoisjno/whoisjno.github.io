@@ -10,12 +10,23 @@ filename <- 'sheets_export.csv'
 raw <- read.csv(paste(dir, filename, sep = '\\'), stringsAsFactors = FALSE)
 names(raw) <- c('timestamp', 'ResponseId', 'data')
 
-# Parse each row - now just reading CSV directly instead of JSON
-parse_row <- function(response_id, csv_str) {
+# Function to parse a single row
+parse_row <- function(response_id, json_str) {
   tryCatch({
-    rows <- read.csv(text = csv_str, stringsAsFactors = FALSE)
+    rows <- fromJSON(json_str)
     if (is.null(rows) || nrow(rows) == 0) return(NULL)
-    cbind(id = response_id, rows)
+    
+    data.frame(
+      id = response_id,
+      block = rows$data.block,
+      cond = rows$data.condition,
+      cat = sapply(rows$stimuli, function(s) if(length(s) >= 1) s[1] else NA),
+      stim = sapply(rows$stimuli, function(s) if(length(s) >= 2) s[2] else NA),
+      rt = rows$latency,
+      resp = rows$responseHandle,
+      score = rows$data.score,
+      stringsAsFactors = FALSE
+    )
   }, error = function(e) {
     message(paste('Error parsing row for ResponseId:', response_id))
     return(NULL)
